@@ -2,15 +2,66 @@
 
 # parent-map version 1.0
 # Author: Damien Marsic, damien.marsic@aliyun.com
-# 2020-04-21
+# 2020-04-26
 # License: GNU General Public v3 (GPLv3)
 
 import argparse
+from gooey import Gooey, GooeyParser
+import sys
 from collections import defaultdict
+import webbrowser
+from os import system
 import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
+cli=False
+if len(list(sys.argv))>1:
+    cli=True
+
+def parse_CLI():
+    parser=argparse.ArgumentParser(description="Analyze parental contributions to protein sequences")
+    parser.add_argument('Input',type=str,help="File containing the sequence(s) to be analyzed")
+    parser.add_argument('Parent',type=str,help="File containing the parental sequence(s)")
+    parser.add_argument('-o','--Output',type=str,help="Output file prefix")
+    parser.add_argument('-n','--NumSeq',type=int,help="Number of sequences to analyze (default: all sequences)")
+    parser.add_argument('-m','--MinFragLen',type=int,help="Minimal fragment length (default: 6 for protein, 18 for DNA)")
+    parser.add_argument('-v','--MinOverlap',type=int,help="Minimal overlap length (default: 2 for protein, 6 for DNA)")
+    parser.add_argument('-s','--MaxNameSize',type=int,default=12,help="Maximal size of sequence names, longer names will be replaced with a number (default: 12)")
+    parser.add_argument('-c','--SeqChars',type=int,default=120,help="Number of sequence characters per line (default: 120)")
+    parser.add_argument('-l','--LowerCase',default=False,action='store_true',help="Display sequences in lower case (default: upper case)")
+    parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
+    parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
+    parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
+    parser.add_argument('-d','--DisplayResults',default=False,action='store_true',help="Display results in browser (default: yes)")
+    return parser.parse_args()
+
+@Gooey(show_restart_button=False,menu=[{'name':'About','items':[{
+    'type': 'AboutDialog',
+    'menuTitle': 'About Parent map',
+    'name': 'Parent map',
+    'description': 'Characterize protein sequence variants against possible parental sequences',
+    'version': '1.0',
+    'copyright': '2020',
+    'website': '',
+    'developer': 'Damien Marsic',
+    'license': 'GNU General Public v3 (GPLv3)'}]}])
+def parse_GUI():
+    parser=GooeyParser(description="Analyze parental contributions to protein sequences")
+    parser.add_argument('Input',widget="FileChooser",type=str,help="File containing the sequence(s) to be analyzed")
+    parser.add_argument('Parent',widget="FileChooser",type=str,help="File containing the parental sequence(s)")
+    parser.add_argument('-o','--Output',type=str,help="Output file prefix")
+    parser.add_argument('-n','--NumSeq',type=int,help="Number of sequences to analyze (default: all sequences)")
+    parser.add_argument('-m','--MinFragLen',type=int,help="Minimal fragment length (default: 6 for protein, 18 for DNA)")
+    parser.add_argument('-v','--MinOverlap',type=int,help="Minimal overlap length (default: 2 for protein, 6 for DNA)")
+    parser.add_argument('-s','--MaxNameSize',type=int,default=12,help="Maximal size of sequence names, longer names will be replaced with a number (default: 12)")
+    parser.add_argument('-c','--SeqChars',type=int,default=120,help="Number of sequence characters per line (default: 120)")
+    parser.add_argument('-l','--LowerCase',default=False,action='store_true',help="Display sequences in lower case (default: upper case)")
+    parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
+    parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
+    parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
+    parser.add_argument('-d','--DisplayResults',default=True,action='store_false',help="Display results in browser (default: yes)")
+    return parser.parse_args()
 
 def check_file(filename,txt,x):
     try:
@@ -167,23 +218,10 @@ def refine(i,a,b,x,y,seq,ref,db,sd):
                     l+=j[1]-j[0]+1
     return db,sd
 
-def parse():
-    parser=argparse.ArgumentParser(description="Analyze parental contributions to protein sequences")
-    parser.add_argument('Input',type=str,help="File containing the sequence(s) to be analyzed")
-    parser.add_argument('Parent',type=str,help="File containing the parental sequence(s)")
-    parser.add_argument('-o','--Output',type=str,help="Output file prefix")
-    parser.add_argument('-n','--NumSeq',type=int,help="Number of sequences to analyze (default: all sequences)")
-    parser.add_argument('-m','--MinFragLen',type=int,help="Minimal fragment length (default: 6 for protein, 18 for DNA)")
-    parser.add_argument('-v','--MinOverlap',type=int,help="Minimal overlap length (default: 2 for protein, 6 for DNA)")
-    parser.add_argument('-s','--MaxNameSize',type=int,default=12,help="Maximal size of sequence names, longer names will be replaced with a number (default: 12)")
-    parser.add_argument('-c','--SeqChars',type=int,default=120,help="Number of sequence characters per line (default: 120)")
-    parser.add_argument('-l','--LowerCase',default=False,action='store_true',help="Display sequences in lower case (default: upper case)")
-    parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
-    parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
-    parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
-    return parser.parse_args()
-
-args=parse()
+if not cli:
+    args=parse_GUI()
+else:
+    args=parse_CLI()
 fail=False
 top=''
 score=0
@@ -192,27 +230,27 @@ results=[]
 # Check arguments
 
 if not check_file(args.Input,'Sequence',1):
-    exit()
+    sys.exit()
 if not check_file(args.Parent,'Parent',1):
-    exit()
+    sys.exit()
 if not check_int(args.NumSeq,1,'There should be at least one sequence to be analyzed!'):
-    exit()
+    sys.exit()
 if not check_int(args.MinFragLen,1,'Minimal fragment length should be >0!'):
-    exit()
+    sys.exit()
 if not check_int(args.MinOverlap,0,'Minimal overlap length should be >=0!'):
-    exit()
+    sys.exit()
 if not check_int(args.MaxNameSize,0,'Maximal size of sequence names can not be less than 0!'):
-    exit()
+    sys.exit()
 if not check_int(args.SeqChars,10,'There should be at least 10 sequence characters per line!'):
-    exit()
+    sys.exit()
 if not check_int(args.VRSides,0,'The number of characters each side of variable regions can not be less than 0!'):
-    exit()
+    sys.exit()
 if args.VRSides>args.SeqChars/3:
     print('\n  The number of characters each side of variable regions can not be greater than a third the umber of characters per line!')
-    exit()
+    sys.exit()
 if not type(args.Symbols) is str or len(args.Symbols)!=3 or args.Symbols[0]==' ' or len(set(args.Symbols))!=3:
     print('\n  Symbols should be exactly 3 characters, all different, and the first character can not be a blank space!\n')
-    exit()
+    sys.exit()
 if args.Output:
     x=args.Input[:args.Input.rfind('/')+1]
     y=args.Input[:args.Input.rfind("\\")+1]
@@ -237,7 +275,7 @@ else:
     if args.VRSides!=1:
         outfile+='-e'+str(args.VRSides)
 if not args.Overwrite and (check_file(outfile+'-stats.txt','',2) or check_file(outfile+'-par.txt','',2) or check_file(outfile+'-aln.txt','',2) or check_file(outfile+'-def.txt','',2)):
-    exit()
+    sys.exit()
 
 # Open parental sequence(s)
 
@@ -278,13 +316,13 @@ for n in temp:
         n=n.upper()
     ref[y[0]]=(ref[y[0]],n)
 if fail:
-    exit()
+    sys.exit()
 
 # More checks
 
 if len(ref)==0:
     print('\n  No sequence was found in file '+args.Parent+' !\n\n')
-    exit()
+    sys.exit()
 seqtype=''
 for n in ref:
     temp='DNA'
@@ -297,7 +335,7 @@ for n in ref:
     seqtype=temp
 if temp!=seqtype:
     print('\n  All parental sequences must be of same type (DNA or protein) !\n\n')
-    exit()
+    sys.exit()
 
 # Process input file
 
@@ -783,7 +821,7 @@ if wrote:
     results.append('par')
 f.close()
 if fail:
-    exit()
+    sys.exit()
 
 # Statistics
 
@@ -1079,3 +1117,28 @@ g.close()
 if wrote:
     print('  Alignments saved into file: '+outfile+'-aln.txt\n')
     results.append('aln')
+if not args.DisplayResults:
+    sys.exit()
+for x in ("chrome","firefox","iexplore","opera"):
+    for n in results:
+        URL='file:///'+outfile+'-'+n+'.txt'
+        try:
+            system("start "+x+" "+URL)
+        except:
+            break
+    else:
+        break
+else:
+    for x in ("chrome","firefox","iexplore","opera"):
+        for n in results:
+            URL='file:///'+outfile+'-'+n+'.txt'
+            try:
+                webbrowser.get(x).open(URL)
+            except:
+                break
+        else:
+            break
+    else:
+        for n in results:
+            URL='file:///'+outfile+'-'+n+'.txt'
+            webbrowser.open_new_tab(URL)
