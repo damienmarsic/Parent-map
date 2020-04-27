@@ -7,6 +7,6 @@ Run parent-map.py -h for help.
 
 Install from Python3: pip install parent-map
 
-Run: python parent-map
+Run: python -m parent-map
 
 
