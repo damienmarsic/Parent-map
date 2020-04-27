@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# parent-map version 1.0
+# parent-map version 1.0.2
 # Author: Damien Marsic, damien.marsic@aliyun.com
-# 2020-04-26
+# 2020-04-27
 # License: GNU General Public v3 (GPLv3)
 
 import argparse
@@ -10,7 +10,7 @@ from gooey import Gooey, GooeyParser
 import sys
 from collections import defaultdict
 import webbrowser
-from os import system
+from os import system,path
 import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -33,7 +33,7 @@ def parse_CLI():
     parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
     parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
     parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
-    parser.add_argument('-d','--DisplayResults',default=False,action='store_true',help="Display results in browser (default: yes)")
+    parser.add_argument('-d','--DisplayResults',default=False,action='store_true',help="Display results in browser (default: no)")
     return parser.parse_args()
 
 @Gooey(show_restart_button=False,menu=[{'name':'About','items':[{
@@ -1119,6 +1119,8 @@ if wrote:
     results.append('aln')
 if not args.DisplayResults:
     sys.exit()
+if not path.isabs(outfile):
+    outfile=path.abspath(outfile)
 for x in ("chrome","firefox","iexplore","opera"):
     for n in results:
         URL='file:///'+outfile+'-'+n+'.txt'
