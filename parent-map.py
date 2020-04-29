@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# parent-map version 1.0.2
+# parent-map version 1.0.3
 # Author: Damien Marsic, damien.marsic@aliyun.com
-# 2020-04-27
+# 2020-04-29
 # License: GNU General Public v3 (GPLv3)
 
 import argparse
@@ -18,6 +18,9 @@ pd.set_option('display.width', None)
 cli=False
 if len(list(sys.argv))>1:
     cli=True
+if '-v' in sys.argv or '--version' in sys.argv:
+    print('\n  Parent-map version 1.0.3\n')
+    sys.exit()
 
 def parse_CLI():
     parser=argparse.ArgumentParser(description="Analyze parental contributions to protein sequences")
@@ -41,7 +44,7 @@ def parse_CLI():
     'menuTitle': 'About Parent map',
     'name': 'Parent map',
     'description': 'Characterize protein sequence variants against possible parental sequences',
-    'version': '1.0',
+    'version': '1.0.3',
     'copyright': '2020',
     'website': '',
     'developer': 'Damien Marsic',
