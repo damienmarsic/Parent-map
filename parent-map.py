@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# parent-map version 1.0.3
+# parent-map version 1.0.4
 # Author: Damien Marsic, damien.marsic@aliyun.com
 # 2020-04-29
 # License: GNU General Public v3 (GPLv3)
@@ -10,7 +10,8 @@ from gooey import Gooey, GooeyParser
 import sys
 from collections import defaultdict
 import webbrowser
-from os import system,path
+from os import path
+import subprocess
 import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -19,7 +20,7 @@ cli=False
 if len(list(sys.argv))>1:
     cli=True
 if '-v' in sys.argv or '--version' in sys.argv:
-    print('\n  Parent-map version 1.0.3\n')
+    print('\n  Parent-map version 1.0.4\n')
     sys.exit()
 
 def parse_CLI():
@@ -44,7 +45,7 @@ def parse_CLI():
     'menuTitle': 'About Parent map',
     'name': 'Parent map',
     'description': 'Characterize protein sequence variants against possible parental sequences',
-    'version': '1.0.3',
+    'version': '1.0.4',
     'copyright': '2020',
     'website': '',
     'developer': 'Damien Marsic',
@@ -1128,8 +1129,8 @@ for x in ("chrome","firefox","iexplore","opera"):
     for n in results:
         URL='file:///'+outfile+'-'+n+'.txt'
         try:
-            system("start "+x+" "+URL)
-        except:
+            subprocess.call("start "+x+" "+URL)
+        except OSError:
             break
     else:
         break
