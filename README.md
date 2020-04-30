@@ -7,6 +7,9 @@ Run parent-map.py -h for help.
 
 Install from Python3: pip install parent-map
 
+Install from conda: conda install -c bioconda parent-map
+
 Run: python -m parent-map
 
+Windows installer: https://sourceforge.net/projects/parent-map/
 
