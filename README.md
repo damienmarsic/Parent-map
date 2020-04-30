@@ -6,12 +6,18 @@ Run parent-map without arguments to start in GUI mode.
 Run parent-map with arguments to start in console mode.
 Run parent-map.py -h for help and list of arguments.
 
-Install from PyPI: pip install parent-map
-
-Install from Bioconda: conda install -c bioconda parent-map
-
-Run: python -m parent-map
-
+Install from PyPI:
+````
+pip install parent-map
+````
+Install from Bioconda:
+```
+conda install -c bioconda parent-map
+```
+Run:
+```
+python -m parent-map
+```
 Windows installer: https://sourceforge.net/projects/parent-map/
 
 
