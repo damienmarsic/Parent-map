@@ -61,3 +61,5 @@ html_theme_options = {
     'logo_name': True,
     'github_button': True
 }
+
+master_doc = 'index'
