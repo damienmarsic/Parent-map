@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; Parent-map 1.0.5 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Parent-map documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Parent-map analyzes protein or DNA sequences which are derived from one or multiple parent sequences, and shows parental contributions as well as differences from relevant parents.</p>
+<p>Originally developed to analyze capsid protein sequences obtained by directed evolution, Parent-map can be used in any case where variant sequences are to be compared to parent sequences from which they are derived. Parent-map detects sequence shuffling as well as substitutions, insertions and deletions.</p>
+<p>Parent-map takes two FASTA files as input and generates four text files as output.</p>
+<p>The first input file contains the variant sequences to be analyzed, in either single- or multi-line FASTA format. Sequences are read into memory one at a time, so there is no limit to their number. They don’t need to be related, and can be derived from any combination of parental libraries.</p>
+<p>The other input file contains the parental sequences. FASTA format is only required if more than one parent is present. All parental sequences are loaded into memory together, as their number is limited.</p>
+<p>The output files have the 4 following endings in their name: -stats.txt (statistics), -par.txt (parental contributions), -def.txt (sequence definitions) and -aln.txt (alignments).</p>
+<p>The -stats.txt file is a simple table showing an overview of the variant sequences main features. Sequences are sorted by the number of contributing parents, then by the parent name.</p>
+<p>The -par.txt file is an alignment of each variant against all its contributing parents. This file is particularly useful for variants derived from shuffled libraries, as it maps the most likely parental contributions. Contributing parental fragments are displayed using an identity character (which can be customized). Obviously, in the case of multiple parents, the combination of fragments shown is only one among a very large number of possible combinations. However, the solution shown has the largest fragment lengths, the smallest number of fragments and the smallest number of parents.</p>
+<p>The -def.txt file gives a formal definition of each variant sequence in relation to its parent(s), in a table format. It’s a blueprint allowing to reconstruct the variant sequences from a minimal set of instructions.</p>
+<p>The -aln file aligns variants under their main parent. As opposed to the -par.txt file where there is an alignment per variant, here there is an alignment per parent. First, alignments for single parent sequences are shown, then alignments for multi-parent sequences if they exist, against their main parent. For legibility, only regions in which at least one of the variants differ from the parent are shown. Each region is numbered according to its position in the parental sequence.</p>
+<p>Parent-map is a platform-independent Python 3 script available as a Bioconda package, as well as a Windows executable. It can be run in command-line mode inside a terminal or in a graphic user interface. Starting it without arguments will launch the graphic interface, while adding any argument will run it as a command-line program. The Windows version can also do both, with the only difference that it will not display anything in command-line mode.</p>
+<dl class="simple">
+<dt>Source code:</dt><dd><p><a class="reference external" href="https://github.com/damienmarsic/Parent-map">https://github.com/damienmarsic/Parent-map</a></p>
+</dd>
+<dt>Python package:</dt><dd><p><a class="reference external" href="https://pypi.org/project/parent-map/">https://pypi.org/project/parent-map/</a></p>
+</dd>
+<dt>Bioconda recipe and package:</dt><dd><p><a class="reference external" href="http://bioconda.github.io/recipes/parent-map/README.html">http://bioconda.github.io/recipes/parent-map/README.html</a></p>
+</dd>
+<dt>Windows executable:</dt><dd><p><a class="reference external" href="https://sourceforge.net/projects/parent-map/">https://sourceforge.net/projects/parent-map/</a></p>
+</dd>
+</dl>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>The recommended method is to install parent-map as a Bioconda package under a Python 3 conda environment. If you don’t have such environment, first install Miniconda3 from here (exists for Linux, MacOSX and Windows):
+<a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a></p>
+<p>To install the parent-map bioconda package, at the conda prompt type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">bioconda</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span>
+</pre></div>
+</div>
+<p>Windows users who prefer not to use a conda environment can install the Windows executable version of parent-map from here:
+<a class="reference external" href="https://sourceforge.net/projects/parent-map/">https://sourceforge.net/projects/parent-map/</a></p>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>To run parent-map from a Python 3 conda environment, type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span>
+</pre></div>
+</div>
+<p>This will launch the graphic interface (same as if launching the Windows version).</p>
+<p>To run in command-line mode, add arguments. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span> <span class="o">-</span><span class="n">v</span>
+<span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>In the first example, the version will be displayed. The second example will show a help message.</p>
+<p>Typical usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span> <span class="n">variant_file</span> <span class="n">parent_file</span> <span class="n">optional_arguments</span>
+</pre></div>
+</div>
+<p>where variant_file is the name of the file containing the variant sequences, parent_file is the name of the file containing the parental sequences, and optional_arguments can be any combination of the optional arguments described in detail below.</p>
+<p>Real-life example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">parent</span><span class="o">-</span><span class="nb">map</span> <span class="n">example_variants</span><span class="o">.</span><span class="n">fasta</span> <span class="n">example_parents</span><span class="o">.</span><span class="n">fasta</span> <span class="o">-</span><span class="n">o</span> <span class="n">test</span>
+</pre></div>
+</div>
+<p>This will result in the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">name</span> <span class="s1">&#39;AAV2-sept-Y-F&#39;</span> <span class="n">replaced</span> <span class="k">with</span> <span class="s1">&#39;S16&#39;</span>
+<span class="n">Parental</span> <span class="n">maps</span> <span class="n">saved</span> <span class="n">into</span> <span class="n">file</span><span class="p">:</span> <span class="n">test</span><span class="o">-</span><span class="n">par</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">Stats</span> <span class="n">saved</span> <span class="n">into</span> <span class="n">file</span><span class="p">:</span> <span class="n">test</span><span class="o">-</span><span class="n">stats</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">Sequence</span> <span class="n">definitions</span> <span class="n">saved</span> <span class="n">into</span> <span class="n">file</span><span class="p">:</span> <span class="n">test</span><span class="o">-</span><span class="n">def</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">Alignments</span> <span class="n">saved</span> <span class="n">into</span> <span class="n">file</span><span class="p">:</span> <span class="n">test</span><span class="o">-</span><span class="n">aln</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Note that the prefix ‘test’ entered with the -o (output) argument became the prefix of the 4 output files. Also note that the sequence name change (first line) can be avoided by using the -s argument (maximum name size) followed by the value 13 (the sequence name ‘AAV2-sept-Y-F’ is 13 character long, while the default value for -s is 12).</p>
+<div class="section" id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h2>
+<p>The same parameters are available in both modes (graphic and command-line) but some default values might differ.</p>
+<ul class="simple">
+<li><p>Version: -v</p></li>
+</ul>
+<blockquote>
+<div><p>Whenever the argument -v is used, parent-map will only display the program version and exit, no matter whether other arguments are present or not. In graphic mode, version information is under ‘About’ in the main menu.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Help: -h</p></li>
+</ul>
+<blockquote>
+<div><p>Whenever the -h argument is used, parent-map will only display the help message and exit, no matter whether other arguments are present or not. In graphic mode, the ‘Help’ menu item links to the documentation web page.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Variants: file name or path to file name</p></li>
+</ul>
+<blockquote>
+<div><p>The variant file must be in FASTA format, no matter how many sequences are present. In graphic mode, a Browse button allows to select the file from any directory.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Parents: file name or path to file name</p></li>
+</ul>
+<blockquote>
+<div><p>The parent file must be in FASTA format unless a single parent is present, in which case raw sequence (with no name) is fine. Again, a Browse button is there in graphic mode. It is possible to change the position numbering by adding a number after the sequence name (separated by a blank space). That number will then become the position number of the first character in the sequence. If no umber is provided, the first character will be considered to be in position 1. This is useful when standard numberings need to be used but only a region of the gene is sequenced.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Output: -o</p></li>
+</ul>
+<blockquote>
+<div><p>The output files will be saved in the same directory as the variant file. If this argument is used, the prefix entered will be the part of the file names before the -stats.tx, -par.txt, -def.txt and -aln.txt endings. If this argument is not used, the prefix will be a combination of the variants and parents file names, as well as some arguments and their values.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>MinFragLen: -m</p></li>
+</ul>
+<blockquote>
+<div><p>This is the minimum fragment length used to map variant regions against parental sequences. Default values are 6 for protein sequences and 18 for DNA sequences (sequences with non [A, T, G, C] characters are automatically defined as ‘protein’). It is recommended to keep the default values.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>MinOverlap: -V</p></li>
+</ul>
+<blockquote>
+<div><p>This is the minimum overlap length in the case of sequences produced by shuffling parental sequences. Default values are 2 for protein and 6 for DNA. It can be useful to decrease the value in cases where variants from multiple parents are not produced by overlapping randomly digested fragments, but rather by rationally designed combinations.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>MaxNameSize: -s</p></li>
+</ul>
+<blockquote>
+<div><p>Maximum length of sequence names before the name is replaced with a shorter generic name (‘S’ followed by a number corresponding to the sequence position in the FASTA file). Default value is 12.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>SeqChars: -c</p></li>
+</ul>
+<blockquote>
+<div><p>Number of sequence characters per line in alignments (-par.txt and -aln.txt files). Default value is 120.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>LowerCase: -l</p></li>
+</ul>
+<blockquote>
+<div><p>By default, all sequences are displayed in upper case. Use the -l argument to display sequences in lower case instead.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>VRSides: -e</p></li>
+</ul>
+<blockquote>
+<div><p>Number of characters to be included each side of variable regions in the -aln.txt file. Note that increasing the value results in neighboring regions merging. Modifying this value only alters the esthetics of the displayed alignments. Default value is 1.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Overwrite: -f</p></li>
+</ul>
+<blockquote>
+<div><p>By default, if an output file with the same name already exists, parent-map exits with a warning to either change the output prefix or to use the -f argument. The -f argument forces overwriting of existing files with identical names without warning.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Symbols: -S</p></li>
+</ul>
+<blockquote>
+<div><p>Symbols for identity (default: ‘.’) and gap (default: ‘-‘) in -par.txt and -aln.txt files. Symbols should be exactly 2 non identical and non blank characters.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>DisplayResults: -d</p></li>
+</ul>
+<blockquote>
+<div><p>The 4 output files are automatically displayed in a web browser by default in graphic mode only. Use the -d argument to automatically display in command-line mode. The option might not work, depending on the user’s operating system and browser configuration. The files might be displayed in the default application for text files instead, if the browser is unresponsive, or might not display at all. In any case, the 4 output files are always saved in the same directory as the input files, and can be opened at any time by the user with any appropriate displaying application (a web browser is recommended). Note that if a word processor is used, a monospaced font (such as Courier New for example) needs to be applied to the contents for proper display. Note that even when using a monospaced font, Microsoft Word uses shorter blank spaces, which distorts the display. In this case, replace all blank spaces in the document with a monospaced blank space created by pressing the space bar while simultaneously holding both Shift and Ctrl keys.</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="output-files">
+<h1>Output files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="statistics">
+<h2>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h2>
+<p>The -stats.txt file shows a summary of the variant sequences main features, in table format. Sequences are sorted by number of parental sequences, then by main parent name, then by the number of insertion sites. Description of the table columns:</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Name</strong>:</dt><dd><p>variant sequence name as appearing in the variant FASTA file, or as a shorter name made of ‘S’ followed by the sequence number in the original file in case the original name is longer than the default maximum name length.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>Length</strong>:</p></li>
+</ol>
+<blockquote>
+<div><p>sequence lengths (number of amino acid residues for protein sequences, number of nucleotides for DNA sequences).</p>
+</div></blockquote>
+<ol class="arabic simple">
+<li><p><strong>Parents</strong>:</p></li>
+</ol>
+<blockquote>
+<div><p>number of parental sequences detected as having contributed to the variant sequence.</p>
+</div></blockquote>
+<p>#. <strong>Main</strong>:
+Name of the main contributing parental sequence (the parent covering the largest area of the variant, in case of multiple parents).
+#. Coverage: % of the variant sequence covered by the main parent. Note that this is not the same as global similarity to the main parent sequence in the case of multiple parents. In that case, it’s about the parts of the variant sequence that are not already covered by other parents. It’s actually the % of positions identical to the main parent as displayed in the -par.txt file.</p>
+<ol class="arabic simple">
+<li><p>Matches: number of sequence positions matched (as opposed to a % as in the previous column).</p></li>
+<li><p>ID%: global similarity of the variant sequence compared to the main parent sequence (% of identical positions). In the case of a single parent, this is identical to coverage (6th column). However, in the case of multiple parents, this is the % identity with the parent along the whole variant sequence (and not just the part covered by that parent and not by other parents as in column 6).</p></li>
+<li><p>Identities: global similarity as the number of identical variant sequence positions compared with the main parent.</p></li>
+<li><p>Ins_sites: number of sites in the variant sequence that have an insertion compared with the main parent.</p></li>
+<li><p>Ins: total number of nucleotide or amino acid insertions in the whole variant sequence.</p></li>
+<li><p>Del_sites: number of sites in the variant sequence that have a deletion compared with the main parent.</p></li>
+<li><p>Dels: total number of nucleotide or amino acid deletions in the whole variant sequence.</p></li>
+<li><p>Subs: total number of substitutions in the variant sequence compared with the main parent.</p></li>
+<li><p>Other: number of sequence positions that could not be matched to any parent and could not be considered as a variation of one particular parent.</p></li>
+</ol>
+</div>
+<div class="section" id="parental-mapping">
+<h2>Parental mapping<a class="headerlink" href="#parental-mapping" title="Permalink to this headline">¶</a></h2>
+<p>In the -par.txt file, each variant complete sequence is displayed along its contributing parents. The parental mapping is simplified as much as possible, so that the variant is completely described using as few parents as possible and as few fragments as possible. Only the necessary parents are shown. If a fragment can be mapped equally to more than one parent, the parent that has the highest overall coverage is chosen. Identities are displayed in the parent lines using an identity symbol (‘.’ by default). If a mismatch occurs between 2 fragments mapped to the same parents or at a sequence end, it is considered a variation of the parent next to it and displayed as the parent sequence (substitution) or using the gap symbol (‘-‘ by default) in the parent line for insertions or in the variant line for deletions. The -par.txt file is most useful for variant sequences selected from shuffled libraries.</p>
+</div>
+<div class="section" id="sequence-definitions">
+<h2>Sequence definitions<a class="headerlink" href="#sequence-definitions" title="Permalink to this headline">¶</a></h2>
+<p>The -def.txt file shows comprehensive definitions of variant sequences in terms of their parent(s), using as few instructions as possible. For each variant, a 5-column table is displayed:</p>
+<ol class="arabic simple">
+<li><p>Variant region:</p></li>
+<li><p>Parent/feature:</p></li>
+<li><p>Parent region:</p></li>
+<li><p>Variant sequence:</p></li>
+<li><p>Parent sequence:</p></li>
+</ol>
+</div>
+<div class="section" id="alignments">
+<h2>Alignments<a class="headerlink" href="#alignments" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/parent-map.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">Parent-map</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=damienmarsic&repo=Parent-map&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#arguments">Arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#output-files">Output files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#statistics">Statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parental-mapping">Parental mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-definitions">Sequence definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alignments">Alignments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Parent-map documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Damien Marsic.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/pm-doc.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

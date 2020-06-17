@@ -1,0 +1,28 @@
+Overview
+========
+
+Parent-map analyzes protein or DNA sequences which are derived from one or multiple parent sequences, and shows parental contributions as well as differences from relevant parents.
+
+Originally developed to analyze capsid protein sequences obtained by directed evolution, Parent-map can be used in any case where variant sequences are to be compared to parent sequences from which they are derived. Parent-map detects sequence shuffling as well as substitutions, insertions and deletions.
+
+Parent-map takes 2 FASTA files as input and generates 4 text files as output.
+
+The first input file contains the variant sequences to be analyzed, in either single- or multi-line FASTA format. Sequences are read into memory one at a time, so there is no limit to their number. They don't need to be related, and can be derived from any combination of parental libraries.
+
+The other input file contains the parental sequences. In the case of a single parent, FASTA format is not required. All parental sequences are loaded into memory together, as their number is limited.
+
+The output files have the 4 following endings in their name: -stats.txt (statistics), -par.txt (parental contributions),-def.txt (sequence definitions) and -aln.txt (alignments).
+
+The -stats.txt file is a simple table showing an overview of the variant sequences main features. Sequences are sorted by the number of contributing parents, then by the parent name.
+
+The -par.txt file is an alignment of each variant against all its contributing parents. This file is particularly useful for variants derived from shuffled libraries. Contributing parental fragments are displayed using an identity character (which can be customized).
+
+largest frags / smallest number of parents
+
+
+
+
+
+input/output
+Mode cli and GUI
+available as platform-independent bioconda package, and windows executable

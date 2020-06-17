@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; Parent-map 1.0.5 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Installation.html" />
+    <link rel="prev" title="Documentation for Parent-map" href="index.html" />
+
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Parent-map analyzes protein or DNA sequences which are derived from one or multiple parent sequences, and shows parental contributions as well as differences from relevant parents.</p>
+<p>Originally developed to analyze capsid protein sequences obtained by directed evolution, Parent-map can be used in any case where variant sequences are to be compared to parent sequences from which they are derived. Parent-map detects sequence shuffling as well as substitutions, insertions and deletions.</p>
+<p>Parent-map takes 2 FASTA files as input and generates 4 text files as output.</p>
+<p>The first input file contains the variant sequences to be analyzed, in either single- or multi-line FASTA format. Sequences are read into memory one at a time, so there is no limit to their number. They don’t need to be related, and can be derived from any combination of parental libraries.</p>
+<p>The other input file contains the parental sequences. In the case of a single parent, FASTA format is not required. All parental sequences are loaded into memory together, as their number is limited.</p>
+<p>The output files have the 4 following endings in their name: -stats.txt (statistics), -par.txt (parental contributions),-def.txt (sequence definitions) and -aln.txt (alignments).</p>
+<p>The -stats.txt file is a simple table showing an overview of the variant sequences main features. Sequences are sorted by the number of contributing parents, then by the parent name.</p>
+<p>The -par.txt file is an alignment of each variant against all its contributing parents. This file is particularly useful for variants derived from shuffled libraries. Contributing parental fragments are displayed using an identity character (which can be customized).</p>
+<p>largest frags / smallest number of parents</p>
+<pre>
+Cyan: <span style="background-color:#00FEFE">Cyan             Text</span>
+Green: <span style="background-color:#00FF00">Green           Text</span>
+Yellow: <span style="background-color:yellow">Yellow                Text</span>
+Pink: <span style="background-color:#FF00FF">Pink Text</span>
+</pre>
+
+<p>input/output
+Mode cli and GUI
+available as platform-independent bioconda package, and windows executable</p>
+</div>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Parent-map</a></h1>
+
+Cyan: <span style="background-color:#00FEFE">Cyan Text</span>
+Green: <span style="background-color:#00FF00">Green Text</span>
+Yellow: <span style="background-color:yellow">Yellow Text</span>
+Pink: <span style="background-color:#FF00FF">Pink Text</span>
+Cyan: <span style="background-color:#00FEFE">Cyan Text</span>
+Green: <span style="background-color:#00FF00">Green Text</span>
+Yellow: <span style="background-color:yellow">Yellow Text</span>
+Pink: <span style="background-color:#FF00FF">Pink Text</span>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Documentation for Parent-map</a></li>
+      <li>Next: <a href="Installation.html" title="next chapter">&lt;no title&gt;</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Damien Marsic.
+
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+      |
+      <a href="_sources/Overview.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    Cyan: <span style="background-color:#00FEFE">Cyan Text</span>
+    Green: <span style="background-color:#00FF00">Green Text</span>
+    Yellow: <span style="background-color:yellow">Yellow Text</span>
+    Pink: <span style="background-color:#FF00FF">Pink Text</span>
+
+
+  </body>
+</html>
