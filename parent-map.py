@@ -1,17 +1,15 @@
 #!/usr/bin/env python
 
-# parent-map version 1.0.4
+# parent-map version 1.1.0
 # Author: Damien Marsic, damien.marsic@aliyun.com
-# 2020-04-29
+# 2020-06-15
 # License: GNU General Public v3 (GPLv3)
 
 import argparse
 from gooey import Gooey, GooeyParser
 import sys
-from collections import defaultdict
+from collections import defaultdict, Counter
 import webbrowser
-from os import path
-import subprocess
 import pandas as pd
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -20,40 +18,43 @@ cli=False
 if len(list(sys.argv))>1:
     cli=True
 if '-v' in sys.argv or '--version' in sys.argv:
-    print('\n  Parent-map version 1.0.4\n')
+    print('\n  Parent-map version 1.1.0\n  Damien Marsic, 2020\n')
     sys.exit()
 
 def parse_CLI():
-    parser=argparse.ArgumentParser(description="Analyze parental contributions to protein sequences")
-    parser.add_argument('Input',type=str,help="File containing the sequence(s) to be analyzed")
-    parser.add_argument('Parent',type=str,help="File containing the parental sequence(s)")
+    parser=argparse.ArgumentParser(description="  Analyze parental contributions to protein or DNA sequences. For full documentation, visit: https://parent-map.readthedocs.io")
+    parser.add_argument('Variants',nargs='?',default='',type=str,help="File containing the sequence(s) to be analyzed")
+    parser.add_argument('Parents',nargs='?',default='',type=str,help="File containing the parental sequence(s)")
     parser.add_argument('-o','--Output',type=str,help="Output file prefix")
     parser.add_argument('-n','--NumSeq',type=int,help="Number of sequences to analyze (default: all sequences)")
     parser.add_argument('-m','--MinFragLen',type=int,help="Minimal fragment length (default: 6 for protein, 18 for DNA)")
-    parser.add_argument('-v','--MinOverlap',type=int,help="Minimal overlap length (default: 2 for protein, 6 for DNA)")
+    parser.add_argument('-V','--MinOverlap',type=int,help="Minimal overlap length (default: 2 for protein, 6 for DNA)")
     parser.add_argument('-s','--MaxNameSize',type=int,default=12,help="Maximal size of sequence names, longer names will be replaced with a number (default: 12)")
     parser.add_argument('-c','--SeqChars',type=int,default=120,help="Number of sequence characters per line (default: 120)")
     parser.add_argument('-l','--LowerCase',default=False,action='store_true',help="Display sequences in lower case (default: upper case)")
     parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
     parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
-    parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
+    parser.add_argument('-S','--Symbols',type=str,default='.-',help="Symbols for identity and gap")
     parser.add_argument('-d','--DisplayResults',default=False,action='store_true',help="Display results in browser (default: no)")
+    parser.add_argument('-p','--Colors',type=str,help="List of parent color pairs separated by a comma (leave blank for default colors)")
+    parser.add_argument('-C','--ColorizeOnly',type=str,help="File to be colorized. Skip sequence analysis and only colorize existing text file (Variants and Parents will be ignored if present)")
     return parser.parse_args()
 
 @Gooey(show_restart_button=False,menu=[{'name':'About','items':[{
     'type': 'AboutDialog',
-    'menuTitle': 'About Parent map',
-    'name': 'Parent map',
+    'menuTitle': 'About Parent-map',
+    'name': 'Parent-map',
     'description': 'Characterize protein sequence variants against possible parental sequences',
-    'version': '1.0.4',
+    'version': '1.1.0',
     'copyright': '2020',
-    'website': '',
+    'website': 'https://github.com/damienmarsic/Parent-map',
     'developer': 'Damien Marsic',
-    'license': 'GNU General Public v3 (GPLv3)'}]}])
+    'license': 'GNU General Public v3 (GPLv3)'}]},
+    {'name':'Help','items':[{'type':'Link', 'menuTitle': 'Parent-map documentation','url': 'https://parent-map.readthedocs.io' }]}])
 def parse_GUI():
-    parser=GooeyParser(description="Analyze parental contributions to protein sequences")
-    parser.add_argument('Input',widget="FileChooser",type=str,help="File containing the sequence(s) to be analyzed")
-    parser.add_argument('Parent',widget="FileChooser",type=str,help="File containing the parental sequence(s)")
+    parser=GooeyParser(description="Analyze parental contributions to protein or DNA sequences")
+    parser.add_argument('Variants',widget="FileChooser",nargs='?',type=str,help="File containing the sequence(s) to be analyzed")
+    parser.add_argument('Parents',widget="FileChooser",nargs='?',type=str,help="File containing the parental sequence(s)")
     parser.add_argument('-o','--Output',type=str,help="Output file prefix")
     parser.add_argument('-n','--NumSeq',type=int,help="Number of sequences to analyze (default: all sequences)")
     parser.add_argument('-m','--MinFragLen',type=int,help="Minimal fragment length (default: 6 for protein, 18 for DNA)")
@@ -63,8 +64,10 @@ def parse_GUI():
     parser.add_argument('-l','--LowerCase',default=False,action='store_true',help="Display sequences in lower case (default: upper case)")
     parser.add_argument('-e','--VRSides',type=int,default=1,help="Number of characters to include each side of variable regions (default:1)")
     parser.add_argument('-f','--Overwrite',default=False,action='store_true',help="Force overwrite of existing files (default: exit if file exists)")
-    parser.add_argument('-S','--Symbols',type=str,default='. -',help="Symbols for identity, no match, gap (no match is only used if single parent)")
+    parser.add_argument('-S','--Symbols',type=str,default='.-',help="Symbols for identity and gap")
     parser.add_argument('-d','--DisplayResults',default=True,action='store_false',help="Display results in browser (default: yes)")
+    parser.add_argument('-p','--Colors',type=str,help="List of parent color pairs separated by a comma (leave blank for default colors)")
+    parser.add_argument('-C','--ColorizeOnly',widget="FileChooser",type=str,help="File to be colorized. Skip sequence analysis and only colorize existing text file (Variants and Parents will be ignored if present)")
     return parser.parse_args()
 
 def check_file(filename,txt,x):
@@ -222,6 +225,72 @@ def refine(i,a,b,x,y,seq,ref,db,sd):
                     l+=j[1]-j[0]+1
     return db,sd
 
+def colorize(filename,cd,id):
+    if not id:
+        print()
+        temp=""
+        f=open(filename,'r')
+        while True:
+            l=f.readline()
+            if not l:
+                break
+            x=l.split()
+            if x and x[0] in cd:
+                for n in x:
+                    temp+=n
+        x=Counter(temp)
+        if not x:
+            print('\n  No valid content in file '+filename+'!\n\n')
+            return
+        id=x.most_common(1)[0][0]
+        f.close()
+    f=open(filename,'r')
+    if '.' in filename:
+        html=filename[:filename.rfind('.')]+'.html'
+    else:
+        html=filename+'.html'
+    g=open(html,'w')
+    g.write("<html>\n<head></head>\n<body><p><pre>\n")
+    while True:
+        l=f.readline()
+        if not l:
+            break
+        x=l.split()
+        if x and x[0] in cd:
+            y=x[0]
+            if len(x)==1:
+                continue
+            l=l.replace(y,'<span style="background-color:'+cd[y]+'">'+y+'</span>',1)
+            while True:
+                z=l.rfind('/span>')+6
+                while True:
+                    z+=1
+                    if z>=len(l):
+                        break
+                    if l[z]!=id:
+                        continue
+                    l=l.replace(l[:z],l[:z]+'<span style="background-color:'+cd[y]+'">',1)
+                    break
+                if z>=len(l):
+                    break
+                z=l.rfind('">')+2
+                while True:
+                    z+=1
+                    if l[z]==id:
+                        continue
+                    l=l.replace(l[:z],l[:z]+'</span>',1)
+                    break
+        elif "Parental composition of sequence" in l:
+            l='</pre><h2>'+l.strip()+'</h2><pre>\n'
+        g.write(l)
+    g.write("</pre></p></body>\n</html>\n")
+    g.close()
+    f.close()
+    print('  Colorized version of parental map file saved into file: '+html+'\n')
+    if args.DisplayResults:
+        webbrowser.open_new_tab(html)
+    return
+
 if not cli:
     args=parse_GUI()
 else:
@@ -230,12 +299,13 @@ fail=False
 top=''
 score=0
 results=[]
+cd={}
 
 # Check arguments
 
-if not check_file(args.Input,'Sequence',1):
+if args.Variants and not check_file(args.Variants,'Sequence',1):
     sys.exit()
-if not check_file(args.Parent,'Parent',1):
+if args.Parents and not check_file(args.Parents,'Parent',1):
     sys.exit()
 if not check_int(args.NumSeq,1,'There should be at least one sequence to be analyzed!'):
     sys.exit()
@@ -252,24 +322,27 @@ if not check_int(args.VRSides,0,'The number of characters each side of variable 
 if args.VRSides>args.SeqChars/3:
     print('\n  The number of characters each side of variable regions can not be greater than a third the umber of characters per line!')
     sys.exit()
-if not type(args.Symbols) is str or len(args.Symbols)!=3 or args.Symbols[0]==' ' or len(set(args.Symbols))!=3:
-    print('\n  Symbols should be exactly 3 characters, all different, and the first character can not be a blank space!\n')
+if not type(args.Symbols) is str or len(args.Symbols)!=2 or ' ' in args.Symbols or args.Symbols[0]==args.Symbols[1] or args.Symbols[0].isalpha() or args.Symbols[1].isalpha():
+    print('\n  Symbols should be exactly 2 non identical, non alphabetical and non blank characters!\n')
     sys.exit()
 if args.Output:
-    x=args.Input[:args.Input.rfind('/')+1]
-    y=args.Input[:args.Input.rfind("\\")+1]
+    if '/' in args.Output or '\\' in args.Output or ':' in args.Output:
+        print('\n  Invalid characters in output prefix! Do not include any path information, as the output files will be saved in the same directory as the input files.\n')
+        sys.exit()
+    x=args.Variants[:args.Variants.rfind('/')+1]
+    y=args.Variants[:args.Variants.rfind("\\")+1]
     outfile=x+y+args.Output
 else:
-    x=args.Parent
+    x=args.Parents
     x=x[x.rfind('/')+1:x.rfind('.')]
     x=x[x.rfind("\\")+1:]
-    outfile=args.Input[:args.Input.rfind('.')]+'-'+x
+    outfile=args.Variants[:args.Variants.rfind('.')]+'-'+x
     if args.NumSeq:
         outfile+='-n'+str(args.NumSeq)
     if args.MinFragLen:
         outfile+='-m'+str(args.MinFragLen)
     if args.MinOverlap:
-        outfile+='-v'+str(args.MinOverlap)
+        outfile+='-V'+str(args.MinOverlap)
     if args.MaxNameSize!=8:
         outfile+='-s'+str(args.MaxNameSize)
     if args.SeqChars!=70:
@@ -278,12 +351,26 @@ else:
         outfile+='-lc'
     if args.VRSides!=1:
         outfile+='-e'+str(args.VRSides)
-if not args.Overwrite and (check_file(outfile+'-stats.txt','',2) or check_file(outfile+'-par.txt','',2) or check_file(outfile+'-aln.txt','',2) or check_file(outfile+'-def.txt','',2)):
+if not args.Overwrite and (check_file(outfile+'-stats.txt','',2) or check_file(outfile+'-par.txt','',2) or check_file(outfile+'-par.html','',2) or check_file(outfile+'-aln.txt','',2) or check_file(outfile+'-def.txt','',2)):
+    sys.exit()
+if args.ColorizeOnly and not check_file(args.ColorizeOnly,'Parental map',1):
+    sys.exit()
+if args.ColorizeOnly:
+    if args.Colors:
+        temp=args.Colors.split(',')
+        for n in temp:
+            if len(n.split())==2:
+                x,y=n.split()
+                cd[x]=y
+    if not cd:
+        print("\n  Parent color pairs must be provided with the -p argument. Example:\n\n  python -m parent-map -C filename-par.txt -p 'AAV1 blue, AAV2 red, AAV5 yellow'\n")
+    else:
+        colorize(args.ColorizeOnly,cd,'')
     sys.exit()
 
 # Open parental sequence(s)
 
-f=open(args.Parent,'r')
+f=open(args.Parents,'r')
 temp=f.read().strip()
 f.close()
 ref={}
@@ -306,10 +393,10 @@ for n in temp:
         fail=True
         break
     if y[1].isdigit():
-        ref[y[0]]=int(y[1])-1
+        ref[y[0]]=int(y[1])
         x=2
     else:
-        ref[y[0]]=0
+        ref[y[0]]=1
         x=1
     n=n.split(None,x)[-1]
     n=n.replace(' ','')
@@ -325,7 +412,7 @@ if fail:
 # More checks
 
 if len(ref)==0:
-    print('\n  No sequence was found in file '+args.Parent+' !\n\n')
+    print('\n  No sequence was found in file '+args.Parents+' !\n\n')
     sys.exit()
 seqtype=''
 for n in ref:
@@ -341,9 +428,9 @@ if temp!=seqtype:
     print('\n  All parental sequences must be of same type (DNA or protein) !\n\n')
     sys.exit()
 
-# Process input file
+# Process variant file
 
-f=open(args.Input,'r')
+f=open(args.Variants,'r')
 g=open(outfile+'-par.txt','w')
 wrote=False
 name=''
@@ -351,8 +438,7 @@ seq=''
 num=0
 stats={'Name':[],'Length':[],'Parents':[],'Main':[],'Coverage':[],'Matches':[],'ID%':[],'Identities':[],'Ins_sites':[],'Ins':[],'Del_sites':[],'Dels':[],'Subs':[],'Other':[]}
 ID=args.Symbols[0]
-NM=args.Symbols[1]
-GA=args.Symbols[2]
+GA=args.Symbols[1]
 COMB={}
 COMB2={}
 while True:
@@ -582,7 +668,7 @@ while True:
                 print('\n\n  Maximal name size is too short ! Choose a larger value with option -s\n\n')
                 fail=True
                 break
-            g.write('\nSequence name too long, replaced with '+name+' (the number indicates sequence position in the input file)')
+            g.write('\nSequence name too long, replaced with '+name+' (the number indicates sequence position in the variant file)')
             print("'"+name+"'")
         z=0
         q=0
@@ -672,10 +758,7 @@ while True:
                         A+=1
                         B+=1
                     elif i-A<n[x][0]:
-                        if len(comp)==1:
-                            g.write(NM)
-                        else:
-                            g.write(' ')
+                        g.write(' ')
                     elif i-A<n[x][1]:
                         if len(n[x])==4:
                             g.write(GA)
@@ -804,7 +887,7 @@ while True:
         stats['ID%'].append(round(id/len(seq)*100,2))
         stats['Identities'].append(id)
 
-# Next input sequence
+# Next variant sequence
 
     if not line:
         break
@@ -856,6 +939,10 @@ for n in COMB:
                     A=len(k)
     g.write('Variant name: '+n+'\n')
     g.write('Variant region  Parent/feature  Parent region  Variant sequence'+' '*(max(A,16)-16)+'  Parent sequence\n')
+    a=[k for k in COMB[n] if temp[0] in COMB[n][k]][0]
+    if a==-1:
+        a=[k for k in COMB[n] if temp[1] in COMB[n][k]][0]
+        X=ref[a][0]
     for m in temp:
         a=[k for k in COMB[n] if m in COMB[n][k]][0]
         x=str(m[0]+1)
@@ -874,8 +961,6 @@ for n in COMB:
             w=' '*17+m[1]
         elif a!=-1 and a!=0:
             X=ref[a][0]
-            if X<1:
-                X=1
             y=str(m[1])
         if len(m)==3:
             z=a
@@ -946,8 +1031,6 @@ for u in range(2):
                         y.add(j)
                 temp[x]=sorted(y)
         X=ref[n][0]
-        if X<1:
-            X=1
         A=[]    # A: list of regions to display, from variations in each seq / format: ref coords, max size
         for x in temp:  # x: sequence name
             y=0         # y: list index
@@ -1121,30 +1204,24 @@ g.close()
 if wrote:
     print('  Alignments saved into file: '+outfile+'-aln.txt\n')
     results.append('aln')
+
+# Create -par.html file
+
+if not args.Colors:
+    colors=['green','yellow','red','blue','magenta','cyan','orange','purple','darkblue','olive','coral','lightgreen']
+    cd={}
+    x=0
+    for n in sorted(ref):
+        cd[n]=colors[x]
+        x+=1
+        if x==len(colors):
+            x=0
+colorize(outfile+'-par.txt',cd,ID)
+
+# Display files in browser
+
 if not args.DisplayResults:
     sys.exit()
-if not path.isabs(outfile):
-    outfile=path.abspath(outfile)
-for x in ("chrome","firefox","iexplore","opera"):
-    for n in results:
-        URL='file:///'+outfile+'-'+n+'.txt'
-        try:
-            subprocess.call("start "+x+" "+URL)
-        except OSError:
-            break
-    else:
-        break
-else:
-    for x in ("chrome","firefox","iexplore","opera"):
-        for n in results:
-            URL='file:///'+outfile+'-'+n+'.txt'
-            try:
-                webbrowser.get(x).open(URL)
-            except:
-                break
-        else:
-            break
-    else:
-        for n in results:
-            URL='file:///'+outfile+'-'+n+'.txt'
-            webbrowser.open_new_tab(URL)
+for n in results:
+    URL=outfile+'-'+n+'.txt'
+    webbrowser.open_new_tab(URL)
