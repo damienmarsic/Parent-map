@@ -20,13 +20,13 @@ python -m parent-map
 ```
 Windows installer: https://sourceforge.net/projects/parent-map/
 
+Full documentation: https://parent-map.readthedocs.io/
+
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/parent-map/README.html)
 
 [![Download parent-map](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/parent-map/files/latest/download)
 
-[![Read the docs](https://readthedocs.org/projects/parent-map/badge/)](https://parent-map.readthedocs.io/)
-
-[![Download parent-map](https://img.shields.io/badge/Parent--map-Documentation-yellow)](https://parent-map.readthedocs.io/)
+[![Parent-map documentation](https://img.shields.io/badge/Parent--map-Documentation-yellow)](https://parent-map.readthedocs.io/)
 
 
 
