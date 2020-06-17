@@ -24,3 +24,4 @@ Windows installer: https://sourceforge.net/projects/parent-map/
 
 [![Download parent-map](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/parent-map/files/latest/download)
 
+[![Read the docs](https://readthedocs.org/projects/parent-map/badge/)](https://parent-map.readthedocs.io/)
