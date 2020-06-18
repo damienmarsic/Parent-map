@@ -37,8 +37,7 @@ Bioconda recipe and package:
 Windows executable:
  https://sourceforge.net/projects/parent-map/
 
-
-
+|
 Installation
 ============
 
@@ -52,8 +51,7 @@ To install the parent-map bioconda package, at the conda prompt type::
 Windows users who prefer not to use a conda environment can install the Windows executable version of parent-map from here:
 https://sourceforge.net/projects/parent-map/
 
-
-
+|
 Usage
 =====
 
@@ -164,8 +162,7 @@ The same parameters are available in both modes (graphic and command-line) but s
 * ColorizeOnly: -C
  This option is to bypass the sequence analysis and to only colorize an existing -par.txt file. The file name (or path) needs to be entered after -C.
 
-
-
+|
 Output files
 ============
 
@@ -228,8 +225,7 @@ Alignments
 **********
 The -aln.txt file consists of two parts: the first concerns sequences derived from a single parent, while the second part is about sequences derived from multiple parents. In each part, variants derived from the same main parents are aligned together against their main parent. Only regions that differ from the parent in any of the variants are shown, and the region position is indicated by a number (numbering is the one defined in the parental sequence file as explained in :ref:`parents <parents>`). Sequence identity is shown using the identity symbol (default: '.'), gaps are shown using the gap symbol (default: '-'). Insertions are indicated by a gap in the parent sequence, deletions by a gap in the variant sequence. For substitutions, the actual sequence is shown. Increasing the region area (using the -e argument) allows to show more sequence context and to combine neighboring regions. The -aln.txt file is most useful for variants derived from a single parent (such as from insertion or targeted substitution libraries), as it allows to compare variants in discrete regions, which can be much larger in number and size when variants are derived from multiple parents (as in shuffled libraries).
 
-
-
+|
 Examples
 ========
 
