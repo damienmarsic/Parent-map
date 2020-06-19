@@ -1,0 +1,152 @@
+Variant name: SCH2
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-128            AAV6          1-128
+       126-313            AAV9        126-313
+       274-348            AAV8        275-349
+       343-415            AAV9        343-415
+       413-628            AAV2        411-626
+       603-737            AAV9        602-736
+
+Variant name: SCH9
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-128            AAV6          1-128
+       126-313            AAV9        126-313
+       274-348            AAV8        275-349
+       343-477            AAV9        343-477
+       476-627            AAV2        475-626
+       602-736            AAV9        602-736
+
+Variant name: AAV-F
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-588            AAV9          1-588
+       589-595       insertion        588/589  FVVGQSY
+       596-743            AAV9        589-736
+
+Variant name: AAV-DJ
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-124            AAV2          1-124
+        86-147            AAV9         86-147
+       137-187            AAV2        137-187
+       181-204            AAV9        181-204
+       202-222            AAV8        203-223
+       208-261            AAV2        208-261
+       236-313            AAV9        236-313
+       274-456            AAV8        275-457
+           457    substitution            458  T                 A
+       458-491            AAV8        459-492
+       478-657            AAV2        476-655
+       630-737            AAV8        631-738
+
+Variant name: AAV-PHP.B
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-588            AAV9          1-588
+       589-595       insertion        588/589  TLAVPFK
+       596-743            AAV9        589-736
+
+Variant name: AAV2.5T
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-128            AAV2          1-128
+       117-581            AAV5        116-580
+           582    substitution            581  T                 A
+       583-725            AAV5        582-724
+
+Variant name: 7m8
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-239            AAV2          1-239
+           240    substitution            240  T                 I
+       241-587            AAV2        241-587
+       588-597       insertion        587/588  LALGETTRPA
+       598-717            AAV2        588-707
+           718    substitution            708  I                 V
+       719-745            AAV2        709-735
+
+Variant name: LI-A
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-262            AAV2          1-262
+           263    substitution            263  A                 Q
+       264-443            AAV2        264-443
+           444    substitution            444  F                 Y
+       445-449            AAV2        445-449
+       450-454    substitution        450-454  SEGSL             TPSGT
+       455-458            AAV2        455-458
+           459    substitution            459  S                 R
+           460            AAV2            460
+           461    substitution            461  G                 Q
+       462-491            AAV2        462-491
+       492-494    substitution        492-494  DGE               SAD
+       495-498            AAV2        495-498
+       499-500    substitution        499-500  DF                EY
+       501-735            AAV2        501-735
+
+Variant name: LI-C
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-262            AAV2          1-262
+           263    substitution            263  A                 Q
+       264-499            AAV2        264-499
+           500    substitution            500  F                 Y
+       501-502            AAV2        501-502
+           503    substitution            503  P                 T
+       504-506            AAV2        504-506
+           507    substitution            507  T                 K
+       508-735            AAV2        508-735
+
+Variant name: NP84
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-161            AAV2          1-161
+       160-193            AAV6        160-193
+       191-232            AAV2        191-232
+       208-409           AAV3B        208-409
+       313-531            AAV2        313-531
+           532    substitution            532  E                 K
+       533-584            AAV2        533-584
+           585    substitution            585  G                 R
+       586-735            AAV2        586-735
+
+Variant name: OLIG001
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-124            AAV2          1-124
+        86-156            AAV9         86-156
+       136-178            AAV6        136-178
+       165-262            AAV9        165-262
+       234-341            AAV8        235-342
+       333-373            AAV2        331-371
+       343-531            AAV8        344-532
+           532    substitution            533  K                 E
+       533-725            AAV8        534-726
+           726       unmatched                 H
+       727-737            AAV6        726-736
+
+Variant name: AAV2i8
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-584            AAV2          1-584
+       582-590            AAV8        585-593
+       591-735            AAV2        591-735
+
+Variant name: rAAV2-retro
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-381            AAV2          1-381
+           382    substitution            382  D                 N
+       383-587            AAV2        383-587
+       588-597       insertion        587/588  LADQDYTKTA
+       598-717            AAV2        588-707
+           718    substitution            708  I                 V
+       719-745            AAV2        709-735
+
+Variant name: S14
+Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+         1-251            AAV2          1-251
+           252    substitution            252  F                 Y
+       253-271            AAV2        253-271
+           272    substitution            272  F                 Y
+       273-443            AAV2        273-443
+           444    substitution            444  F                 Y
+       445-499            AAV2        445-499
+           500    substitution            500  F                 Y
+       501-699            AAV2        501-699
+           700    substitution            700  F                 Y
+       701-703            AAV2        701-703
+           704    substitution            704  F                 Y
+       705-729            AAV2        705-729
+           730    substitution            730  F                 Y
+       731-735            AAV2        731-735
+

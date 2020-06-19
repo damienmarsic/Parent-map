@@ -91,11 +91,15 @@ Note that the prefix 'test' entered with the -o (output) argument became the pre
 
 Parent-map can also bypass the sequence analysis and just colorize an existing -par.txt file into a -par.html file. This is useful when the user is not satisfied with the default colors and wants to try different color schemes. In this case, the -C argument is used followed by the name of the -par.txt file. Also, the -p argument must be used followed by a list of parent color pairs. Example::
 
-   python -m parent-map -d -C test-par.txt -p 'AAV1 lavender, AAV2 cyan, AAV3B gold, AAV5 crimson, AAV8 lime, AAV9 coral, AAV6 tan'
+   python -m parent-map -d -C test-par.txt -p 'AAV2 turquoise, AAV3B tomato, AAV5 lavender, AAV8 gold, AAV9 crimson, AAV6 lime'
 
 The following output will be generated, while the newly created html file is automatically displayed (thanks to option -d) in the default web browser::
 
    Colorized version of parental map file saved into file: test-par.html
+
+A portion of the generated html file is shown here:
+
+.. image:: _static/SCH9.png
 
 
 Arguments
@@ -199,11 +203,58 @@ The -stats.txt file shows a summary of the variant sequences main features, in t
 #. **Other**:
     Number of sequence positions that could not be matched to any parent and could not be considered as a variation of one particular parent.
 
+Example of a -stats.txt file:
+
+.. image:: _static/stats.png
 
 Parental mapping
 ****************
 In the -par.txt file, each variant complete sequence is displayed along its contributing parental fragments. The parental mapping is simplified as much as possible, so that the variant is completely described using as few parents as possible and as few fragments as possible. Only the necessary parents are shown. If a fragment can be mapped equally to more than one parent, the parent that has the highest overall coverage is chosen. Identities are displayed in the parent lines using an identity symbol ('.' by default). If a mismatch occurs between 2 fragments mapped to the same parents or at a sequence end, it is considered a variation of the parent next to it and displayed as the parent sequence (substitution) or using the gap symbol ('-' by default) in the parent line for insertions or in the variant line for deletions. The -par.txt file is most useful for variant sequences selected from shuffled libraries. Two files are generated: a black and white text file (name ending with -par.txt) and a colorized html version of the same file (name ending with -par.html). In the html file, each parent name and its corresponding identity fragments are colorized using a different color (whenever possible). The default color scheme uses 12 different colors. If the number of parents in the file is greater than 12, the same set of 12 colors is used on the 12 next parents and so on. If the user wishes to apply specific colors, the :ref:`-p argument <colors>` needs to be used followed by a list of parent color pairs, either at the time of the sequence analysis or later with the -C argument to specify the -par.txt file to be colorized again.
 
+Example of a -par.txt file (showing AAV-DJ only)::
+
+  Parental composition of sequence AAV-DJ
+
+                        10        20        30        40        50        60        70        80        90       100       110
+  AAV-DJ        MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSF
+  AAV2          ..............................................................................................................
+  AAV8
+  AAV9                                                                                               .........................
+
+                       120       130       140       150       160       170       180       190       200       210       220
+  AAV-DJ        GGNLGRAVFQAKKRLLEPLGLVEEAAKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPIGEPPAAPSGVGSLTMAAGGGAPMADNNEGADG
+  AAV2          ..............            ...................................................                    .............
+  AAV8                                                                                                     ...................
+  AAV9          .....................................                                 ........................
+
+                       230       240       250       260       270       280       290       300       310       320       330
+  AAV-DJ        VGNSSGNWHCDSTWMGDRVITTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLSFKLFNIQVKEVTQNEG
+  AAV2          .........................................
+  AAV8          ..                                                   .........................................................
+  AAV9                         ..............................................................................
+
+                       340       350       360       370       380       390       400       410       420       430       440
+  AAV-DJ        TKTIANNLTSTIQVFTDSEYQLPYVLGSAHQGCLPPFPADVFMIPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFQFTYTFEDVPFHSSYAHSQSLDRLMNPLI
+  AAV2
+  AAV8          ..............................................................................................................
+
+                       450       460       470       480       490       500       510       520       530       540       550
+  AAV-DJ        DQYLYYLSRTQTTGGTTNTQTLGFSQGGPNTMANQAKNWLPGPCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSE
+  AAV2                                               .........................................................................
+  AAV8          ................A..................................
+
+                       560       570       580       590       600       610       620       630       640       650       660
+  AAV-DJ        KTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQGVLPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPADPP
+  AAV2          ...........................................................................................................
+  AAV8                                                                                         ...............................
+
+                       670       680       690       700       710       720       730
+  AAV-DJ        TTFNQSKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSTSVDFAVNTEGVYSEPRPIGTRYLTRNL
+  AAV8          .............................................................................
+
+Same map from the corresponding -par.html file, using default colors:
+
+.. image:: _static/AAV-DJ.png
 
 Sequence definitions
 ********************
@@ -220,10 +271,100 @@ The -def.txt file shows comprehensive definitions of variant sequences in terms 
 #. **Parent sequence**:
     In the case of substitutions or deletions, the corresponding parental sequence is displayed here.
 
+Here is an example of a -def.txt file::
+
+  Variant name: OLIG001
+  Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence``
+           1-124            AAV2          1-124
+          86-156            AAV9         86-156
+         136-178            AAV6        136-178
+         165-262            AAV9        165-262
+         234-341            AAV8        235-342
+         333-373            AAV2        331-371
+         343-531            AAV8        344-532
+             532    substitution            533  K                 E
+         533-725            AAV8        534-726
+             726       unmatched                 H
+         727-737            AAV6        726-736
+
+  Variant name: AAV2i8
+  Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+           1-584            AAV2          1-584
+         582-590            AAV8        585-593
+         591-735            AAV2        591-735
+
+  Variant name: rAAV2-retro
+  Variant region  Parent/feature  Parent region  Variant sequence  Parent sequence
+           1-381            AAV2          1-381
+             382    substitution            382  D                 N
+         383-587            AAV2        383-587
+         588-597       insertion        587/588  LADQDYTKTA
+         598-717            AAV2        588-707
+             718    substitution            708  I                 V
+         719-745            AAV2        709-735``
 
 Alignments
 **********
 The -aln.txt file consists of two parts: the first concerns sequences derived from a single parent, while the second part is about sequences derived from multiple parents. In each part, variants derived from the same main parents are aligned together against their main parent. Only regions that differ from the parent in any of the variants are shown, and the region position is indicated by a number (numbering is the one defined in the parental sequence file as explained in :ref:`parents <parents>`). Sequence identity is shown using the identity symbol (default: '.'), gaps are shown using the gap symbol (default: '-'). Insertions are indicated by a gap in the parent sequence, deletions by a gap in the variant sequence. For substitutions, the actual sequence is shown. Increasing the region area (using the -e argument) allows to show more sequence context and to combine neighboring regions. The -aln.txt file is most useful for variants derived from a single parent (such as from insertion or targeted substitution libraries), as it allows to compare variants in discrete regions, which can be much larger in number and size when variants are derived from multiple parents (as in shuffled libraries).
+Example of -aln.txt file::
+
+  Alignment of variant sequences against their main parental sequence - single parent
+
+                239 251 262 271 381 443 449     458   491   498     506 587          699 703 707 729
+  AAV2          VIT TYN SQS HYF NNG YYL NTPSGTT SRLQF TSADN SEYSWTG TKY N----------R QYT NYN SVN RYL
+  LI-A          ... ... .A. ... ... .F. .SEGSL. .S.G. .DGE. .DF.... ... .----------. ... ... ... ...
+  LI-C          ... ... .A. ... ... ... ....... ..... ..... ..F..P. .T. .----------. ... ... ... ...
+  AAV2-sept-Y-F ... .F. ... .F. ... .F. ....... ..... ..... ..F.... ... .----------. .F. .F. ... .F.
+  7m8           .T. ... ... ... ... ... ....... ..... ..... ....... ... .LALGETTRPA. ... ... .I. ...
+  rAAV2-retro   ... ... ... ... .D. ... ....... ..... ..... ....... ... .LADQDYTKTA. ... ... .I. ...
+
+
+                588
+  AAV9          Q-------A
+  AAV-F         .FVVGQSY.
+  AAV-PHP.B     .TLAVPFK.
+
+
+
+  Alignment of variant sequences against their main parental sequence - multiple parents
+
+
+                124 134  161 167 178  187   197    204   232   261       270 309   326    339 371 409   448    455
+  AAV2          RVL EPVK KAG ARK DADS PLGQP GLGTNT ATGSG STWMG S-SQS-GAS NHY KRLNF NDGTTT TVQ MVP FTFSY TNTPSG TTQSRLQF
+  AAV2i8        ... .... ... ... .... ..... ...... ..... ..... .-...-... ... ..... ...... ... ... ..... ...... ........
+  AAV-DJ        .L. .AA. ... ... .... .I.E. .V.SL. .A.G. ..... .N.T.G.S. .A. ...S. .E..K. .I. .I. .Q.T. .Q.TG. .NTQT.G.
+  NP84          ... .... .T. .K. .SE. ...E. ...... ..... .Q.L. .-...-... ... .K.S. ...... ... ... ..... ...... ........
+
+                464           531 584      655   661      704     712
+  AAV2          QAGASDIRDQSRN EKF QRGNRQAA ANPST FSAAKFAS YNKSVNV FTVDTNG
+  AAV2i8        ............. ... .QQ.TAP. ..... ........ ....... .......
+  AAV-DJ        .G.PNTMAN.AK. ... ........ .D.P. .NQS.LN. .Y..TS. .A.N.E.
+  NP84          ............. .E. .G...... ..... ........ ....... .......
+
+
+                1        12                29  33         49  54  59  65        75          101    114 580
+  AAV5          MSFVDHPP E-EVGEGLREFLGLEAG PKP PNQQHQDQAR YNY PGN DRG NRADEVARE DISYNEQLEAG EKLADD GKA PAT
+  AAV2.5T       .AADGYL. .DTLS..I.QWWK.KP. .P. .AER.K.DS. .K. .F. .K. .E..AA.L. .KA.DR..DS. .R.KE. .R. .T.
+
+
+                13  20     28               66  80      91  104 124 134 147 151  157 162 168 179 188 200  205 211 233 342 532 726
+  AAV8          DNL REWWAL GAPKPKANQQKQDDGR NAA DQQLQAG LRY LQE RVL EGA EPS QRSP STG KKG ARK DSE PLG GPNT AAG PMA STW TIQ DEE PRP
+  OLIG001       .T. .Q..K. .P.P..PAERHK..S. .E. .R..DS. .K. .K. .L. .A. .Q. .-E. .S. .T. .K. .T. .I. .SL. .S. .V. .Q. .V. .K. .H.
+
+                736
+  AAV8          RNL
+  OLIG001       .P.
+
+
+                23  30  37      55  91  104 124 313 326     341 415    448                                482 490
+  AAV9          WAL PQP QHQDNAR PGN LKY LKE RLL LNF TDNNGVK TVQ YEFENV SKTINGSG-QNQQTLKFSVAGPSNMAVQGRNYIP PSY STTVTQN
+  SCH2          .D. .K. .K..DG. .F. .R. .Q. .V. .S. .Q.E.T. .I. .T..D. .R.NTP..TTT.SR.Q..Q..A.DIRD.S..WL. .C. .K.SAD.
+  SCH9          .D. .K. .K..DG. .F. .R. .Q. .V. .S. .Q.E.T. .I. ...... ........-......................WL. .C. .K.SAD.
+
+                500          514    528     536    547    554  561 566 575
+  AAV9          EFAWPGASSWAL RNSLMN KEGEDRF PLSGSL GTGRDN DADK TNE IKT ESYGQVATNHQSAQAQAQTGWVQNQGIL
+  SCH2          .YS.T..TKYH. .D..V. .DD.EK. .Q..V. .SEKT. .IE. .D. .R. .Q..S.S..L.RGNR..A.AD.NT..V.
+  SCH9          .YS.T..TKYH. .D..V. .DD.EK. .Q..V. .SEKT. .IE. .D. .R. .Q..S.S..L.RGNR..A.AD.NT..V.
 
 |
 Examples

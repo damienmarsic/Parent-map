@@ -1,0 +1,492 @@
+Parental composition of sequence SCH2
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+SCH2         MAADGYLPDWLEDNLSEGIREWWDLKPGAPKPKANQQKQDDGRGLVLPGYKYLGPFNGLDKGEPVNAADAAALEHDKAYDQQLKAGDNPYLRYNHADAEFQERLQEDTSFGGNLGRAVFQ
+AAV2                                                                                                                                 
+AAV6         ........................................................................................................................
+AAV8                                                                                                                                 
+AAV9                                                                                                                                 
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+SCH2         AKKRVLEPLGLVEEAAKTAPGKKRPVEQSPQEPDSSAGIGKSGAQPAKKRLNFGQTGDTESVPDPQPIGEPPAAPSGVGSLTMASGGGAPVADNNEGADGVGSSSGNWHCDSQWLGDRVI
+AAV2                                                                                                                                 
+AAV6         ........
+AAV8                                                                                                                                 
+AAV9              ...................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+SCH2         TTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLSFKLFNIQVKEVTQNEGTKTIANNLTSTIQVFTDSDYQLPYVLGSAH
+AAV2                                                                                                                                 
+AAV8                                          ...........................................................................
+AAV9         .........................................................................                             ..................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+SCH2         EGCLPPFPADVFMIPQYGYLTLNDGSQAVGRSSFYCLEYFPSQMLRTGNNFQFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWL
+AAV2                                                             ....................................................................
+AAV9         .......................................................                                                                 
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+SCH2         PGPCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQ
+AAV2         ........................................................................................................................
+AAV9                                                                                                                                 
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+SCH2         GVLPGMVWQDRDVYLQGPIWAKIPHTDGNFHPSPLMGGFGMKHPPPQILIKNTPVPADPPTAFNKDKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSNNVEFAVNTEG
+AAV2         ............................
+AAV9           ......................................................................................................................
+
+                    730
+SCH2         VYSEPRPIGTRYLTRNL
+AAV9         .................
+
+
+Parental composition of sequence SCH9
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+SCH9         MAADGYLPDWLEDNLSEGIREWWDLKPGAPKPKANQQKQDDGRGLVLPGYKYLGPFNGLDKGEPVNAADAAALEHDKAYDQQLKAGDNPYLRYNHADAEFQERLQEDTSFGGNLGRAVFQ
+AAV2                                                                                                                                 
+AAV6         ........................................................................................................................
+AAV8                                                                                                                                 
+AAV9                                                                                                                                 
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+SCH9         AKKRVLEPLGLVEEAAKTAPGKKRPVEQSPQEPDSSAGIGKSGAQPAKKRLNFGQTGDTESVPDPQPIGEPPAAPSGVGSLTMASGGGAPVADNNEGADGVGSSSGNWHCDSQWLGDRVI
+AAV2                                                                                                                                 
+AAV6         ........
+AAV8                                                                                                                                 
+AAV9              ...................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+SCH9         TTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLSFKLFNIQVKEVTQNEGTKTIANNLTSTIQVFTDSDYQLPYVLGSAH
+AAV2                                                                                                                                 
+AAV8                                          ...........................................................................
+AAV9         .........................................................................                             ..................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+SCH9         EGCLPPFPADVFMIPQYGYLTLNDGSQAVGRSSFYCLEYFPSQMLRTGNNFQFSYEFENVPFHSSYAHSQSLDRLMNPLIDQYLYYLSKTINGSGQNQQTLKFSVAGPSNMAVQGRNWLP
+AAV2                                                                                                                            .....
+AAV9         .....................................................................................................................   
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+SCH9         GPCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQG
+AAV2         ........................................................................................................................
+AAV9                                                                                                                                 
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+SCH9         VLPGMVWQDRDVYLQGPIWAKIPHTDGNFHPSPLMGGFGMKHPPPQILIKNTPVPADPPTAFNKDKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSNNVEFAVNTEGV
+AAV2         ...........................
+AAV9          .......................................................................................................................
+
+                    730
+SCH9         YSEPRPIGTRYLTRNL
+AAV9         ................
+
+
+Parental composition of sequence AAV-F
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+AAV-F        MAADGYLPDWLEDNLSEGIREWWALKPGAPQPKANQQHQDNARGLVLPGYKYLGPGNGLDKGEPVNAADAAALEHDKAYDQQLKAGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV9         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+AAV-F        AKKRLLEPLGLVEEAAKTAPGKKRPVEQSPQEPDSSAGIGKSGAQPAKKRLNFGQTGDTESVPDPQPIGEPPAAPSGVGSLTMASGGGAPVADNNEGADGVGSSSGNWHCDSQWLGDRVI
+AAV9         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+AAV-F        TTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTDNNGVKTIANNLTSTVQVFTDSDYQLPYVLGSAH
+AAV9         ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+AAV-F        EGCLPPFPADVFMIPQYGYLTLNDGSQAVGRSSFYCLEYFPSQMLRTGNNFQFSYEFENVPFHSSYAHSQSLDRLMNPLIDQYLYYLSKTINGSGQNQQTLKFSVAGPSNMAVQGRNYIP
+AAV9         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+AAV-F        GPSYRQQRVSTTVTQNNNSEFAWPGASSWALNGRNSLMNPGPAMASHKEGEDRFFPLSGSLIFGKQGTGRDNVDADKVMITNEEEIKTTNPVATESYGQVATNHQSAQFVVGQSYAQAQT
+AAV9         ............................................................................................................-------.....
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+AAV-F        GWVQNQGILPGMVWQDRDVYLQGPIWAKIPHTDGNFHPSPLMGGFGMKHPPPQILIKNTPVPADPPTAFNKDKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSNNVEF
+AAV9         ........................................................................................................................
+
+                    730       740
+AAV-F        AVNTEGVYSEPRPIGTRYLTRNL
+AAV9         .......................
+
+
+Parental composition of sequence AAV-DJ
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+AAV-DJ       MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+AAV8                                                                                                                                 
+AAV9                                                                                              ...................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+AAV-DJ       AKKRLLEPLGLVEEAAKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPIGEPPAAPSGVGSLTMAAGGGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ....            ...................................................                    .................................
+AAV8                                                                                          .....................                  
+AAV9         ...........................                                 ........................                               .....
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+AAV-DJ       TTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLSFKLFNIQVKEVTQNEGTKTIANNLTSTIQVFTDSEYQLPYVLGSAH
+AAV2         .....................                                                                                                   
+AAV8                                          .......................................................................................
+AAV9         .........................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+AAV-DJ       QGCLPPFPADVFMIPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFQFTYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTQTTGGTTNTQTLGFSQGGPNTMANQAKNWL
+AAV2                                                                                                                              ...
+AAV8         ................................................................................................A.......................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+AAV-DJ       PGPCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQ
+AAV2         ........................................................................................................................
+AAV8         ...........                                                                                                             
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+AAV-DJ       GVLPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPADPPTTFNQSKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSTSVDFAVNTEG
+AAV2         .........................................................
+AAV8                                      ...........................................................................................
+
+                    730
+AAV-DJ       VYSEPRPIGTRYLTRNL
+AAV8         .................
+
+
+Parental composition of sequence AAV-PHP.B
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+AAV-PHP.B    MAADGYLPDWLEDNLSEGIREWWALKPGAPQPKANQQHQDNARGLVLPGYKYLGPGNGLDKGEPVNAADAAALEHDKAYDQQLKAGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV9         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+AAV-PHP.B    AKKRLLEPLGLVEEAAKTAPGKKRPVEQSPQEPDSSAGIGKSGAQPAKKRLNFGQTGDTESVPDPQPIGEPPAAPSGVGSLTMASGGGAPVADNNEGADGVGSSSGNWHCDSQWLGDRVI
+AAV9         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+AAV-PHP.B    TTSTRTWALPTYNNHLYKQISNSTSGGSSNDNAYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTDNNGVKTIANNLTSTVQVFTDSDYQLPYVLGSAH
+AAV9         ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+AAV-PHP.B    EGCLPPFPADVFMIPQYGYLTLNDGSQAVGRSSFYCLEYFPSQMLRTGNNFQFSYEFENVPFHSSYAHSQSLDRLMNPLIDQYLYYLSKTINGSGQNQQTLKFSVAGPSNMAVQGRNYIP
+AAV9         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+AAV-PHP.B    GPSYRQQRVSTTVTQNNNSEFAWPGASSWALNGRNSLMNPGPAMASHKEGEDRFFPLSGSLIFGKQGTGRDNVDADKVMITNEEEIKTTNPVATESYGQVATNHQSAQTLAVPFKAQAQT
+AAV9         ............................................................................................................-------.....
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+AAV-PHP.B    GWVQNQGILPGMVWQDRDVYLQGPIWAKIPHTDGNFHPSPLMGGFGMKHPPPQILIKNTPVPADPPTAFNKDKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSNNVEF
+AAV9         ........................................................................................................................
+
+                    730       740
+AAV-PHP.B    AVNTEGVYSEPRPIGTRYLTRNL
+AAV9         .......................
+
+
+Parental composition of sequence AAV2.5T
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+AAV2.5T      MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+AAV5                                                                                                                             ....
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+AAV2.5T      AKKRVLEPFGLVEEGAKTAPTGKRIDDHFPKRKKARTEEDSKPSTSSDAEAGPSGSQQLQIPAQPASSLGADTMSAGGGGPLGDNNQGADGVGNASGDWHCDSTWMGDRVVTKSTRTWVL
+AAV2         ........
+AAV5         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+AAV2.5T      PSYNNHQYREIKSGSVDGSNANAYFGYSTPWGYFDFNRFHSHWSPRDWQRLINNYWGFRPRSLRVKIFNIQVKEVTVQDSTTTIANNLTSTVQVFTDDDYQLPYVVGNGTEGCLPAFPPQ
+AAV5         ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+AAV2.5T      VFTLPQYGYATLNRDNTENPTERSSFFCLEYFPSKMLRTGNNFEFTYNFEEVPFHSSFAPSQNLFKLANPLVDQYLYRFVSTNNTGGVQFNKNLAGRYANTYKNWFPGPMGRTQGWNLGS
+AAV5         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+AAV2.5T      GVNRASVSAFATTNRMELEGASYQVPPQPNGMTNNLQGSNTYALENTMIFNSQPANPGTTATYLEGNMLITSESETQPVNRVAYNVGGQMATNNQSSTTAPTTGTYNLQEIVPGSVWMER
+AAV5         .....................................................................................................A..................
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+AAV2.5T      DVYLQGPIWAKIPETGAHFHPSPAMGGFGLKHPPPMMLIKNTPVPGNITSFSDVPVSSFITQYSTGQVTVEMEWELKKENSKRWNPEIQYTNNYNDPQFVDFAPDSTGEYRTTRPIGTRY
+AAV5         ........................................................................................................................
+
+AAV2.5T      LTRPL
+AAV5         .....
+
+
+Parental composition of sequence 7m8
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+7m8          MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+7m8          AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVT
+AAV2         .......................................................................................................................I
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+7m8          TTSTRTWALPTYNNHLYKQISSQSGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+7m8          CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+7m8          PCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNLALGETTRPARQA
+AAV2         ...........................................................................................................----------...
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+7m8          ATADVNTQGVLPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSINV
+AAV2         .....................................................................................................................V..
+
+                    730       740
+7m8          DFTVDTNGVYSEPRPIGTRYLTRNL
+AAV2         .........................
+
+
+Parental composition of sequence LI-A
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+LI-A         MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+LI-A         AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+LI-A         TTSTRTWALPTYNNHLYKQISSASGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ......................Q.................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+LI-A         CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYFLSRTNSEGSLTTQSSLGFSQAGASDIRDQSRNWLPG
+AAV2         ...................................................................................Y.....TPSGT....R.Q...................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+LI-A         PCYRQQRVSKTDGENNNSDFSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQGV
+AAV2         ...........SAD....EY....................................................................................................
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+LI-A         LPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSVNVDFTVDTNGVY
+AAV2         ........................................................................................................................
+
+                    730
+LI-A         SEPRPIGTRYLTRNL
+AAV2         ...............
+
+
+Parental composition of sequence LI-C
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+LI-C         MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+LI-C         AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+LI-C         TTSTRTWALPTYNNHLYKQISSASGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ......................Q.................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+LI-C         CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+LI-C         PCYRQQRVSKTSADNNNSEFSWPGATTYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQGV
+AAV2         ...................Y..T...K.............................................................................................
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+LI-C         LPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSVNVDFTVDTNGVY
+AAV2         ........................................................................................................................
+
+                    730
+LI-C         SEPRPIGTRYLTRNL
+AAV2         ...............
+
+
+Parental composition of sequence NP84
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+NP84         MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+AAV3B                                                                                                                                
+AAV6                                                                                                                                 
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+NP84         AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKTGQQPAKKRLNFGQTGDSESVPDPQPLGEPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSQWLGDRVI
+AAV2         .........................................                             ..........................................        
+AAV3B                                                                                               .................................
+AAV6                                                ..................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+NP84         TTSTRTWALPTYNNHLYKQISSQSGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKKLSFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2                                                                                 ................................................
+AAV3B        ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+NP84         CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         ........................................................................................................................
+AAV3B        .................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+NP84         PCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEEFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQGGNRQAATADVNTQGV
+AAV2         ...................................................K....................................................R...............
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+NP84         LPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSVNVDFTVDTNGVY
+AAV2         ........................................................................................................................
+
+                    730
+NP84         SEPRPIGTRYLTRNL
+AAV2         ...............
+
+
+Parental composition of sequence OLIG001
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+OLIG001      MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+AAV6                                                                                                                                 
+AAV8                                                                                                                                 
+AAV9                                                                                              ...................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+OLIG001      AKKRLLEPLGLVEEAAKTAPGKKRPVEQSPQEPDSSSGIGKTGQQPAKKRLNFGQTGDTESVPDPQPIGEPPAAPSGVGSLTMASGGGAPVADNNEGADGVGSSSGNWHCDSQWLGDRVI
+AAV2         ....                                                                                                                    
+AAV6                        ...........................................                                                              
+AAV8                                                                                                                          .......
+AAV9         ....................................        ............................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+OLIG001      TTSTRTWALPTYNNHLYKQISNGTSGGATNDNTYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLSFKLFNIQVKEVTQNEGTKTIANNLTSTVQVFTDSEYQLPYVLGSAH
+AAV2                                                                                                     ............................
+AAV6                                                                                                                                 
+AAV8         ..................................................................................................... ..................
+AAV9         ......................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+OLIG001      QGCLPPFPADVFMIPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFQFTYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTQTTGGTANTQTLGFSQGGPNTMANQAKNWL
+AAV2         .............
+AAV6                                                                                                                                 
+AAV8         ........................................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+OLIG001      PGPCYRQQRVSTTTGQNNNSNFAWTAGTKYHLNGRNSLANPGIAMATHKDDKERFFPSNGILIFGKQNAARDNADYSDVMLTSEEEIKTTNPVATEEYGIVADNLQQQNTAPQIGTVNSQ
+AAV6                                                                                                                                 
+AAV8         ...................................................E....................................................................
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+OLIG001      GALPGMVWQNRDVYLQGPIWAKIPHTDGNFHPSPLMGGFGLKHPPPQILIKNTPVPADPPTTFNQSKLNSFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYYKSTSVDFAVNTEG
+AAV6                                                                                                                                 
+AAV8         ........................................................................................................................
+
+                    730
+OLIG001      VYSEPHPIGTRYLTRPL
+AAV6               ...........
+AAV8         .....
+
+
+Parental composition of sequence AAV2i8
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+AAV2i8       MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+AAV8                                                                                                                                 
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+AAV2i8       AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ........................................................................................................................
+AAV8                                                                                                                                 
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+AAV2i8       TTSTRTWALPTYNNHLYKQISSQSGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ........................................................................................................................
+AAV8                                                                                                                                 
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+AAV2i8       CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         ........................................................................................................................
+AAV8                                                                                                                                 
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+AAV2i8       PCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQQQNTAPATADVNTQGV
+AAV2         ........................................................................................................      ..........
+AAV8                                                                                                              .........
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+AAV2i8       LPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSVNVDFTVDTNGVY
+AAV2         ........................................................................................................................
+
+                    730
+AAV2i8       SEPRPIGTRYLTRNL
+AAV2         ...............
+
+
+Parental composition of sequence rAAV2-retro
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+rAAV2-retro  MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+rAAV2-retro  AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+rAAV2-retro  TTSTRTWALPTYNNHLYKQISSQSGASNDNHYFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ........................................................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+rAAV2-retro  CLPPFPADVFMVPQYGYLTLNDGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYYLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         .....................N..................................................................................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+rAAV2-retro  PCYRQQRVSKTSADNNNSEYSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNLADQDYTKTARQA
+AAV2         ...........................................................................................................----------...
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+rAAV2-retro  ATADVNTQGVLPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQYTSNYNKSINV
+AAV2         .....................................................................................................................V..
+
+                    730       740
+rAAV2-retro  DFTVDTNGVYSEPRPIGTRYLTRNL
+AAV2         .........................
+
+
+Parental composition of sequence AAV2-sept-Y-F
+Sequence name too long, replaced with S14 (the number indicates sequence position in the variant file)
+
+                     10        20        30        40        50        60        70        80        90       100       110       120
+S14          MAADGYLPDWLEDTLSEGIRQWWKLKPGPPPPKPAERHKDDSRGLVLPGYKYLGPFNGLDKGEPVNEADAAALEHDKAYDRQLDSGDNPYLKYNHADAEFQERLKEDTSFGGNLGRAVFQ
+AAV2         ........................................................................................................................
+
+                    130       140       150       160       170       180       190       200       210       220       230       240
+S14          AKKRVLEPLGLVEEPVKTAPGKKRPVEHSPVEPDSSSGTGKAGQQPARKRLNFGQTGDADSVPDPQPLGQPPAAPSGLGTNTMATGSGAPMADNNEGADGVGNSSGNWHCDSTWMGDRVI
+AAV2         ........................................................................................................................
+
+                    250       260       270       280       290       300       310       320       330       340       350       360
+S14          TTSTRTWALPTFNNHLYKQISSQSGASNDNHFFGYSTPWGYFDFNRFHCHFSPRDWQRLINNNWGFRPKRLNFKLFNIQVKEVTQNDGTTTIANNLTSTVQVFTDSEYQLPYVLGSAHQG
+AAV2         ...........Y...................Y........................................................................................
+
+                    370       380       390       400       410       420       430       440       450       460       470       480
+S14          CLPPFPADVFMVPQYGYLTLNNGSQAVGRSSFYCLEYFPSQMLRTGNNFTFSYTFEDVPFHSSYAHSQSLDRLMNPLIDQYLYFLSRTNTPSGTTTQSRLQFSQAGASDIRDQSRNWLPG
+AAV2         ...................................................................................Y....................................
+
+                    490       500       510       520       530       540       550       560       570       580       590       600
+S14          PCYRQQRVSKTSADNNNSEFSWTGATKYHLNGRDSLVNPGPAMASHKDDEEKFFPQSGVLIFGKQGSEKTNVDIEKVMITDEEEIRTTNPVATEQYGSVSTNLQRGNRQAATADVNTQGV
+AAV2         ...................Y....................................................................................................
+
+                    610       620       630       640       650       660       670       680       690       700       710       720
+S14          LPGMVWQDRDVYLQGPIWAKIPHTDGHFHPSPLMGGFGLKHPPPQILIKNTPVPANPSTTFSAAKFASFITQYSTGQVSVEIEWELQKENSKRWNPEIQFTSNFNKSVNVDFTVDTNGVY
+AAV2         ...................................................................................................Y...Y................
+
+                    730
+S14          SEPRPIGTRFLTRNL
+AAV2         .........Y.....
+
+

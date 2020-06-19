@@ -1,0 +1,58 @@
+
+Alignment of variant sequences against their main parental sequence - single parent
+
+
+             239 251 262 271 381 443 449     458   491   498     506 587          699 703 707 729
+AAV2         VIT TYN SQS HYF NNG YYL NTPSGTT SRLQF TSADN SEYSWTG TKY N----------R QYT NYN SVN RYL 
+LI-A         ... ... .A. ... ... .F. .SEGSL. .S.G. .DGE. .DF.... ... .----------. ... ... ... ... 
+LI-C         ... ... .A. ... ... ... ....... ..... ..... ..F..P. .T. .----------. ... ... ... ... 
+S14          ... .F. ... .F. ... .F. ....... ..... ..... ..F.... ... .----------. .F. .F. ... .F. 
+7m8          .T. ... ... ... ... ... ....... ..... ..... ....... ... .LALGETTRPA. ... ... .I. ... 
+rAAV2-retro  ... ... ... ... .D. ... ....... ..... ..... ....... ... .LADQDYTKTA. ... ... .I. ... 
+
+
+             588      
+AAV9         Q-------A 
+AAV-F        .FVVGQSY. 
+AAV-PHP.B    .TLAVPFK. 
+
+
+
+Alignment of variant sequences against their main parental sequence - multiple parents
+
+
+             124 134  161 167 178  187   197    204   232   261       270 309   326    339 371 409   448    455      464           531
+AAV2         RVL EPVK KAG ARK DADS PLGQP GLGTNT ATGSG STWMG S-SQS-GAS NHY KRLNF NDGTTT TVQ MVP FTFSY TNTPSG TTQSRLQF QAGASDIRDQSRN EKF 
+AAV2i8       ... .... ... ... .... ..... ...... ..... ..... .-...-... ... ..... ...... ... ... ..... ...... ........ ............. ... 
+AAV-DJ       .L. .AA. ... ... .... .I.E. .V.SL. .A.G. ..... .N.T.G.S. .A. ...S. .E..K. .I. .I. .Q.T. .Q.TG. .NTQT.G. .G.PNTMAN.AK. ... 
+NP84         ... .... .T. .K. .SE. ...E. ...... ..... .Q.L. .-...-... ... .K.S. ...... ... ... ..... ...... ........ ............. .E. 
+
+             584      655   661      704     712    
+AAV2         QRGNRQAA ANPST FSAAKFAS YNKSVNV FTVDTNG 
+AAV2i8       .QQ.TAP. ..... ........ ....... ....... 
+AAV-DJ       ........ .D.P. .NQS.LN. .Y..TS. .A.N.E. 
+NP84         .G...... ..... ........ ....... ....... 
+
+
+             1        12                29  33         49  54  59  65        75          101    114 580
+AAV5         MSFVDHPP E-EVGEGLREFLGLEAG PKP PNQQHQDQAR YNY PGN DRG NRADEVARE DISYNEQLEAG EKLADD GKA PAT 
+AAV2.5T      .AADGYL. .DTLS..I.QWWK.KP. .P. .AER.K.DS. .K. .F. .K. .E..AA.L. .KA.DR..DS. .R.KE. .R. .T. 
+
+
+             13  20     28               66  80      91  104 124 134 147 151  157 162 168 179 188 200  205 211 233 342 532 726 736
+AAV8         DNL REWWAL GAPKPKANQQKQDDGR NAA DQQLQAG LRY LQE RVL EGA EPS QRSP STG KKG ARK DSE PLG GPNT AAG PMA STW TIQ DEE PRP RNL 
+OLIG001      .T. .Q..K. .P.P..PAERHK..S. .E. .R..DS. .K. .K. .L. .A. .Q. .-E. .S. .T. .K. .T. .I. .SL. .S. .V. .Q. .V. .K. .H. .P. 
+
+
+             23  30  37      55  91  104 124 313 326     341 415    448                                482 490     500          514   
+AAV9         WAL PQP QHQDNAR PGN LKY LKE RLL LNF TDNNGVK TVQ YEFENV SKTINGSG-QNQQTLKFSVAGPSNMAVQGRNYIP PSY STTVTQN EFAWPGASSWAL RNSLMN 
+SCH2         .D. .K. .K..DG. .F. .R. .Q. .V. .S. .Q.E.T. .I. .T..D. .R.NTP..TTT.SR.Q..Q..A.DIRD.S..WL. .C. .K.SAD. .YS.T..TKYH. .D..V. 
+SCH9         .D. .K. .K..DG. .F. .R. .Q. .V. .S. .Q.E.T. .I. ...... ........-......................WL. .C. .K.SAD. .YS.T..TKYH. .D..V. 
+
+             528     536    547    554  561 566 575                         
+AAV9         KEGEDRF PLSGSL GTGRDN DADK TNE IKT ESYGQVATNHQSAQAQAQTGWVQNQGIL 
+SCH2         .DD.EK. .Q..V. .SEKT. .IE. .D. .R. .Q..S.S..L.RGNR..A.AD.NT..V. 
+SCH9         .DD.EK. .Q..V. .SEKT. .IE. .D. .R. .Q..S.S..L.RGNR..A.AD.NT..V. 
+
+
+
