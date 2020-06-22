@@ -114,12 +114,12 @@ The same parameters are available in both modes (graphic and command-line) but s
  Whenever the -h argument is used, parent-map will only display the help message and exit, no matter whether other arguments are present or not (except -v). In graphic mode, the 'Help' menu item links to the documentation web page.
 
 * Variants: file name or path to file name
- The variant file must be in FASTA format, no matter how many sequences are present. In graphic mode, a Browse button allows to select the file from any directory.
+ The variant file must be in FASTA format, no matter how many sequences are present. In graphic mode, a Browse button allows to select the file from any directory. If a blank space is present within a directory or file name, the whole path needs to be surrounded by quotation marks, even in graphic mode. For example: 'D:\my folder\my variants.fasta'
 
 .. _parents:
 
 * Parents: file name or path to file name
- The parent file must be in FASTA format unless a single parent is present, in which case raw sequence (with no name) is fine. Again, a Browse button is there in graphic mode. It is possible to change the position numbering by adding a number after the sequence name (separated by a blank space). That number will then become the position number of the first character in the sequence. If no umber is provided, the first character will be considered to be in position 1. This is useful when standard numberings need to be used but only a region of the gene is sequenced.
+ The parent file must be in FASTA format unless a single parent is present, in which case raw sequence (with no name) is fine. Again, a Browse button is there in graphic mode. If a blank space is present within a directory or file name, the whole path needs to be surrounded by quotation marks, even in graphic mode. For example: 'D:\my folder\my parent.fasta'. It is possible to change the position numbering by adding a number after the sequence name (separated by a blank space). That number will then become the position number of the first character in the sequence. If no number is provided, the first character will be considered to be in position 1. This is useful when standard numberings need to be used but only a region of the gene is sequenced.
 
 * Output: -o
  The output files will be saved in the same directory as the variant file. If this argument is used, the prefix entered will be the part of the file names before the -stats.tx, -par.txt, -def.txt and -aln.txt endings. If this argument is not used, a prefix will be automatically generated from the variants and parents file names, as well as some arguments and their values.
