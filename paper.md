@@ -19,10 +19,15 @@ bibliography: paper.bib
 # Summary
 
 Parent-map analyzes protein or DNA sequences which are derived from one or multiple parent sequences, and shows parental contributions as well as differences from relevant parents. Originally developed to analyze capsid protein sequences obtained by directed evolution, parent-map can be used in any case where variant sequences are to be compared to parent sequences from which they are derived. Parent-map detects sequence shuffling as well as substitutions, insertions and deletions, and displays results in user-friendly formats. Parent-map is an open-source, platform-independent Python 3 script, available as a Bioconda package as well as a Windows program.
+
 Source code: <https://github.com/damienmarsic/Parent-map>
+
 Python package: <https://pypi.org/project/parent-map/>
+
 Bioconda recipe and package: <http://bioconda.github.io/recipes/parent-map/README.html>
+
 Windows installer: <https://sourceforge.net/projects/parent-map/>
+
 Documentation: <https://parent-map.readthedocs.io/>
 
 # Statement of need
