@@ -10,7 +10,7 @@ authors:
     orcid: 0000-0003-0847-8095
     affiliation: 1
 affiliations:
- - name: Porton Biologics, Suzhou Industrial Park, Jiangsu, China
+ - name: Porton Biologics, 388 Xinping Street, Suzhou Industrial Park, Jiangsu 215021, China
    index: 1
 date: 18 November 2020
 bibliography: paper.bib
