@@ -22,6 +22,8 @@ Windows installer: https://sourceforge.net/projects/parent-map/
 
 Full documentation: https://parent-map.readthedocs.io/
 
+Discussion list: https://groups.google.com/g/parent-map
+
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/parent-map/README.html)
 
 [![Download parent-map](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/parent-map/files/latest/download)
