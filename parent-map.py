@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-
-# parent-map version 1.1.0
-# Author: Damien Marsic, damien.marsic@aliyun.com
-# 2020-06-17
-# License: GNU General Public v3 (GPLv3)
+__version__='1.1.1'
+last_update='2020-12-02'
+author='Damien Marsic, damien.marsic@aliyun.com'
 
 import argparse
 from gooey import Gooey, GooeyParser
@@ -15,10 +13,12 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', None)
 cli=False
+minfrag=6
+seqtype=''
 if len(list(sys.argv))>1:
     cli=True
 if '-v' in sys.argv or '--version' in sys.argv:
-    print('\n  Parent-map version 1.1.0\n  Damien Marsic, 2020\n')
+    print('\n  Parent-map version '+__version__+'\n  '+author+'\n  Last updated: '+last_update+'\n')
     sys.exit()
 
 def parse_CLI():
@@ -45,10 +45,10 @@ def parse_CLI():
     'menuTitle': 'About Parent-map',
     'name': 'Parent-map',
     'description': 'Characterize protein sequence variants against possible parental sequences',
-    'version': '1.1.0',
+    'version': __version__,
     'copyright': '2020',
     'website': 'https://github.com/damienmarsic/Parent-map',
-    'developer': 'Damien Marsic',
+    'developer': author,
     'license': 'GNU General Public v3 (GPLv3)'}]},
     {'name':'Help','items':[{'type':'Link', 'menuTitle': 'Parent-map documentation','url': 'https://parent-map.readthedocs.io' }]}])
 def parse_GUI():
@@ -225,7 +225,7 @@ def refine(i,a,b,x,y,seq,ref,db,sd):
                     l+=j[1]-j[0]+1
     return db,sd
 
-def colorize(filename,cd,id):
+def colorize(filename,cd,id,display):
     if not id:
         print()
         temp=""
@@ -287,559 +287,324 @@ def colorize(filename,cd,id):
     g.close()
     f.close()
     print('  Colorized version of parental map file saved into file: '+html+'\n')
-    if args.DisplayResults:
+    if display:
         webbrowser.open_new_tab(html)
     return
 
-if not cli:
-    args=parse_GUI()
-else:
-    args=parse_CLI()
-fail=False
-top=''
-score=0
-results=[]
-cd={}
+def main():
+    if not cli:
+        args=parse_GUI()
+    else:
+        args=parse_CLI()
+    fail=False
+    top=''
+    score=0
+    results=[]
+    cd={}
+    seqtype=''
 
-# Check arguments
+    # Check arguments
 
-if args.Variants and not check_file(args.Variants,'Sequence',1):
-    sys.exit()
-if args.Parents and not check_file(args.Parents,'Parent',1):
-    sys.exit()
-if not check_int(args.NumSeq,1,'There should be at least one sequence to be analyzed!'):
-    sys.exit()
-if not check_int(args.MinFragLen,1,'Minimal fragment length should be >0!'):
-    sys.exit()
-if not check_int(args.MinOverlap,0,'Minimal overlap length should be >=0!'):
-    sys.exit()
-if not check_int(args.MaxNameSize,0,'Maximal size of sequence names can not be less than 0!'):
-    sys.exit()
-if not check_int(args.SeqChars,10,'There should be at least 10 sequence characters per line!'):
-    sys.exit()
-if not check_int(args.VRSides,0,'The number of characters each side of variable regions can not be less than 0!'):
-    sys.exit()
-if args.VRSides>args.SeqChars/3:
-    print('\n  The number of characters each side of variable regions can not be greater than a third the umber of characters per line!')
-    sys.exit()
-if not type(args.Symbols) is str or len(args.Symbols)!=2 or ' ' in args.Symbols or args.Symbols[0]==args.Symbols[1] or args.Symbols[0].isalpha() or args.Symbols[1].isalpha():
-    print('\n  Symbols should be exactly 2 non identical, non alphabetical and non blank characters!\n')
-    sys.exit()
-if args.Output:
-    if '/' in args.Output or '\\' in args.Output or ':' in args.Output:
-        print('\n  Invalid characters in output prefix! Do not include any path information, as the output files will be saved in the same directory as the input files.\n')
+    if args.Variants and not check_file(args.Variants,'Sequence',1):
         sys.exit()
-    x=args.Variants[:args.Variants.rfind('/')+1]
-    y=args.Variants[:args.Variants.rfind("\\")+1]
-    outfile=x+y+args.Output
-else:
-    x=args.Parents
-    x=x[x.rfind('/')+1:x.rfind('.')]
-    x=x[x.rfind("\\")+1:]
-    outfile=args.Variants[:args.Variants.rfind('.')]+'-'+x
-    if args.NumSeq:
-        outfile+='-n'+str(args.NumSeq)
-    if args.MinFragLen:
-        outfile+='-m'+str(args.MinFragLen)
-    if args.MinOverlap:
-        outfile+='-V'+str(args.MinOverlap)
-    if args.MaxNameSize!=8:
-        outfile+='-s'+str(args.MaxNameSize)
-    if args.SeqChars!=70:
-        outfile+='-c'+str(args.SeqChars)
-    if args.LowerCase:
-        outfile+='-lc'
-    if args.VRSides!=1:
-        outfile+='-e'+str(args.VRSides)
-if not args.Overwrite and (check_file(outfile+'-stats.txt','',2) or check_file(outfile+'-par.txt','',2) or check_file(outfile+'-par.html','',2) or check_file(outfile+'-aln.txt','',2) or check_file(outfile+'-def.txt','',2)):
-    sys.exit()
-if args.ColorizeOnly and not check_file(args.ColorizeOnly,'Parental map',1):
-    sys.exit()
-if args.ColorizeOnly:
-    if args.Colors:
-        temp=args.Colors.split(',')
-        for n in temp:
-            if len(n.split())==2:
-                x,y=n.split()
-                cd[x]=y
-    if not cd:
-        print("\n  Parent color pairs must be provided with the -p argument. Example:\n\n  python -m parent-map -C filename-par.txt -p 'AAV1 blue, AAV2 red, AAV5 yellow'\n")
+    if args.Parents and not check_file(args.Parents,'Parent',1):
+        sys.exit()
+    if not check_int(args.NumSeq,1,'There should be at least one sequence to be analyzed!'):
+        sys.exit()
+    if not check_int(args.MinFragLen,1,'Minimal fragment length should be >0!'):
+        sys.exit()
+    if not check_int(args.MinOverlap,0,'Minimal overlap length should be >=0!'):
+        sys.exit()
+    if not check_int(args.MaxNameSize,0,'Maximal size of sequence names can not be less than 0!'):
+        sys.exit()
+    if not check_int(args.SeqChars,10,'There should be at least 10 sequence characters per line!'):
+        sys.exit()
+    if not check_int(args.VRSides,0,'The number of characters each side of variable regions can not be less than 0!'):
+        sys.exit()
+    if args.VRSides>args.SeqChars/3:
+        print('\n  The number of characters each side of variable regions can not be greater than a third the umber of characters per line!')
+        sys.exit()
+    if not type(args.Symbols) is str or len(args.Symbols)!=2 or ' ' in args.Symbols or args.Symbols[0]==args.Symbols[1] or args.Symbols[0].isalpha() or args.Symbols[1].isalpha():
+        print('\n  Symbols should be exactly 2 non identical, non alphabetical and non blank characters!\n')
+        sys.exit()
+    if args.Output:
+        if '/' in args.Output or '\\' in args.Output or ':' in args.Output:
+            print('\n  Invalid characters in output prefix! Do not include any path information, as the output files will be saved in the same directory as the input files.\n')
+            sys.exit()
+        x=args.Variants[:args.Variants.rfind('/')+1]
+        y=args.Variants[:args.Variants.rfind("\\")+1]
+        outfile=x+y+args.Output
     else:
-        colorize(args.ColorizeOnly,cd,'')
-    sys.exit()
-
-# Open parental sequence(s)
-
-f=open(args.Parents,'r')
-temp=f.read().strip()
-f.close()
-ref={}
-if '>' in temp:
-    while temp[0]!='>':
-        temp=temp[1:]
-    temp=temp.split('>')
-else:
-    temp=['Parent\n'+temp]
-for n in temp:
-    y=n.split()
-    if not n or n[0] in (' ','\n') or len(y)==1 or (len(y)==2 and y[1].isdigit()):
-        continue
-    if len(y[0])>args.MaxNameSize:
-        print('\n  Parental sequence name too long! Decrease name length or increase max name size for -s option!\n\n')
-        fail=True
-        break
-    if y[0] in ref:
-        print('\n  Duplicate name found in parental sequences! All sequences must have a different name!\n\n')
-        fail=True
-        break
-    if y[1].isdigit():
-        ref[y[0]]=int(y[1])
-        x=2
-    else:
-        ref[y[0]]=1
-        x=1
-    n=n.split(None,x)[-1]
-    n=n.replace(' ','')
-    n=n.replace('\n','')
-    if args.LowerCase:
-        n=n.lower()
-    else:
-        n=n.upper()
-    ref[y[0]]=(ref[y[0]],n)
-if fail:
-    sys.exit()
-
-# More checks
-
-if len(ref)==0:
-    print('\n  No sequence was found in file '+args.Parents+' !\n\n')
-    sys.exit()
-seqtype=''
-for n in ref:
-    temp='DNA'
-    for x in ref[n][1]:
-        if x not in 'ATGCatcg':
-            temp='other'
-            break
-    if seqtype and temp!=seqtype:
-        break
-    seqtype=temp
-if temp!=seqtype:
-    print('\n  All parental sequences must be of same type (DNA or protein) !\n\n')
-    sys.exit()
-
-# Process variant file
-
-f=open(args.Variants,'r')
-g=open(outfile+'-par.txt','w')
-wrote=False
-name=''
-seq=''
-num=0
-stats={'Name':[],'Length':[],'Parents':[],'Main':[],'Coverage':[],'Matches':[],'ID%':[],'Identities':[],'Ins_sites':[],'Ins':[],'Del_sites':[],'Dels':[],'Subs':[],'Other':[]}
-ID=args.Symbols[0]
-GA=args.Symbols[1]
-COMB={}
-COMB2={}
-while True:
-    line=f.readline()
-    if name and (not line or line[0]=='>'):
-        seq=seq.replace(' ','')
-        num+=1
-        seqdel=[]
-        seqdel2=[]
+        x=args.Parents
+        x=x[x.rfind('/')+1:x.rfind('.')]
+        x=x[x.rfind("\\")+1:]
+        outfile=args.Variants[:args.Variants.rfind('.')]+'-'+x
+        if args.NumSeq:
+            outfile+='-n'+str(args.NumSeq)
+        if args.MinFragLen:
+            outfile+='-m'+str(args.MinFragLen)
+        if args.MinOverlap:
+            outfile+='-V'+str(args.MinOverlap)
+        if args.MaxNameSize!=8:
+            outfile+='-s'+str(args.MaxNameSize)
+        if args.SeqChars!=70:
+            outfile+='-c'+str(args.SeqChars)
         if args.LowerCase:
-            seq=seq.lower()
+            outfile+='-lc'
+        if args.VRSides!=1:
+            outfile+='-e'+str(args.VRSides)
+    if not args.Overwrite and (check_file(outfile+'-stats.txt','',2) or check_file(outfile+'-par.txt','',2) or check_file(outfile+'-par.html','',2) or check_file(outfile+'-aln.txt','',2) or check_file(outfile+'-def.txt','',2)):
+        sys.exit()
+    if args.ColorizeOnly and not check_file(args.ColorizeOnly,'Parental map',1):
+        sys.exit()
+    if args.ColorizeOnly:
+        if args.Colors:
+            temp=args.Colors.split(',')
+            for n in temp:
+                if len(n.split())==2:
+                    x,y=n.split()
+                    cd[x]=y
+        if not cd:
+            print("\n  Parent color pairs must be provided with the -p argument. Example:\n\n  python -m parent-map -C filename-par.txt -p 'AAV1 blue, AAV2 red, AAV5 yellow'\n")
         else:
-            seq=seq.upper()
-        if num==1:
-            temp='DNA'
-            for x in seq:
-                if x not in 'ATGCatcg':
-                    temp='other'
-                    break
-            if temp!=seqtype:
-                print('\n  Sequences to be analyzed must be of same type (DNA or protein) as parental sequences !\n\n')
-                fail=True
+            colorize(args.ColorizeOnly,cd,'',args.DisplayResults)
+        sys.exit()
+
+    # Open parental sequence(s)
+
+    f=open(args.Parents,'r')
+    temp=f.read().strip()
+    f.close()
+    ref={}
+    if '>' in temp:
+        while temp[0]!='>':
+            temp=temp[1:]
+        temp=temp.split('>')
+    else:
+        temp=['Parent\n'+temp]
+    for n in temp:
+        y=n.split()
+        if not n or n[0] in (' ','\n') or len(y)==1 or (len(y)==2 and y[1].isdigit()):
+            continue
+        if len(y[0])>args.MaxNameSize:
+            print('\n  Parental sequence name too long! Decrease name length or increase max name size for -s option!\n\n')
+            fail=True
+            break
+        if y[0] in ref:
+            print('\n  Duplicate name found in parental sequences! All sequences must have a different name!\n\n')
+            fail=True
+            break
+        if y[1].isdigit():
+            ref[y[0]]=int(y[1])
+            x=2
+        else:
+            ref[y[0]]=1
+            x=1
+        n=n.split(None,x)[-1]
+        n=n.replace(' ','')
+        n=n.replace('\n','')
+        if args.LowerCase:
+            n=n.lower()
+        else:
+            n=n.upper()
+        ref[y[0]]=(ref[y[0]],n)
+    if fail:
+        sys.exit()
+
+    # More checks
+
+    if len(ref)==0:
+        print('\n  No sequence was found in file '+args.Parents+' !\n\n')
+        sys.exit()
+    for n in ref:
+        temp='DNA'
+        for x in ref[n][1]:
+            if x not in 'ATGCatcg':
+                temp='other'
                 break
-            if args.MinFragLen:
-                minfrag=args.MinFragLen
+        if seqtype and temp!=seqtype:
+            break
+        seqtype=temp
+    if temp!=seqtype:
+        print('\n  All parental sequences must be of same type (DNA or protein) !\n\n')
+        sys.exit()
+
+    # Process variant file
+
+    f=open(args.Variants,'r')
+    g=open(outfile+'-par.txt','w')
+    wrote=False
+    name=''
+    seq=''
+    num=0
+    stats={'Name':[],'Length':[],'Parents':[],'Main':[],'Coverage':[],'Matches':[],'ID%':[],'Identities':[],'Ins_sites':[],'Ins':[],'Del_sites':[],'Dels':[],'Subs':[],'Other':[]}
+    ID=args.Symbols[0]
+    GA=args.Symbols[1]
+    COMB={}
+    COMB2={}
+    while True:
+        line=f.readline()
+        if name and (not line or line[0]=='>'):
+            seq=seq.replace(' ','')
+            num+=1
+            seqdel=[]
+            seqdel2=[]
+            if args.LowerCase:
+                seq=seq.lower()
             else:
-                if seqtype=='DNA':
-                    minfrag=18
-                else:
-                    minfrag=6
-            if args.MinOverlap:
-                minov=args.MinOverlap
-            else:
-                if seqtype=='DNA':
-                    minov=6
-                else:
-                    minov=2
-
-# Match sequence fragments to parental sequences
-
-        comp=defaultdict(list)
-        for m in ref:
-            n=ref[m][1]
-            comp[m].extend(match(seq,n,minfrag))
-
-# Remove irrelevant matches
-
-        temp=set()
-        for m in comp:
-            for n in comp[m]:
-                temp.add(n)
-        a=[]
-        while temp:
-            a.append(min(temp))
-            temp.remove(min(temp))
-            x=[]
-            for m in comp:
-                for n in comp[m]:
-                    if n[:2]==a[-1][:2]:
-                        x.append(m)
-            if len(x)>1:
-                y=0
-                z=''
-                for n in range(len(x)):
-                    b=0
-                    for i in comp[x[n]]:
-                        b+=i[1]-i[0]
-                    if b<y:
-                        z=x[n]
-                    elif b>y and y>0:
-                        z=x[n-1]
-                        y=b
-                    else:
-                        y=b
-                    if z:
-                        for j in comp[z]:
-                            if j[:2]==a[-1][:2]:
-                                comp[z].remove(j)
-                                break
-            if len(a)>=2:
-                x=''
-                if a[-2][1]>a[-1][1] or (a[-2][1]==a[-1][1] and a[-2][0]<a[-1][0]):
-                    x=a[-1]
-                elif a[-2][0]==a[-1][0] and a[-1][1]>a[-2][1]:
-                    x=a[-2]
-                if x:
-                    for m in comp:
-                        for n in comp[m]:
-                            if n[:2]==x[:2]:
-                                comp[m].remove(n)
-                                break
-                    if x==a[-2]:
-                        del a[-2]
-                    else:
-                        del a[-1]
-            if len(a)<3:
-                continue
-            if a[0][1]-a[2][0]>=minov and (a[2][0]>a[0][0] or a[2][1]>a[0][1]):
-                for m in comp:
-                    if a[1] in comp[m]:
-                        comp[m].remove(a[1])
-                del a[1]
-            else:
-                del a[0]
-        temp=set()
-        for m in comp:
-            for n in comp[m]:
-                temp.add(n)
-        a=[]
-        while temp:
-            a.append(min(temp))
-            temp.remove(min(temp))
-            if len(a)<3:
-                continue
-            if (a[1][0]>a[0][1] and a[1][1]<a[2][1]) or (a[1][0]>a[0][0] and a[1][1]<a[2][0]):
-                for m in comp:
-                    if a[0] in comp[m] and a[2] in comp[m]:
-                        for n in comp:
-                            if n==m:
-                                continue
-                            if a[1] in comp[n]:
-                                comp[n].remove(a[1])
-                        del a[1]
+                seq=seq.upper()
+            if num==1:
+                temp='DNA'
+                for x in seq:
+                    if x not in 'ATGCatcg':
+                        temp='other'
                         break
-            del a[0]
-        for m in comp:
-            if len(comp[m])==1:
-                x=comp[m][0]
-                for n in comp:
-                    if n==m:
-                        continue
-                    for i in range(len(comp[n])):
-                        if comp[n][i][1]>=x[0] and len(comp[n])>i+1 and x[1]>=comp[n][i+1][0] and comp[n][i+1][0]==comp[n][i][1]+1:
-                            comp[m].remove(x)
-                            break
-        x=list(comp.keys())
-        for m in x:
-            if not comp[m]:
-                del comp[m]
-
-# Refine coverage of unmatched regions flanked by same parent or end regions
-# Also save relevant info for stats
-        temp=set()
-        for m in comp:
-            for n in comp[m]:
-                temp.add(n)
-        temp=sorted(temp)
-        i=-1
-        while i<len(temp) and len(temp)>0:
-            if i>=0 and i+1<len(temp):
-                for n in comp:
-                    if temp[i] in comp[n] and temp[i+1] in comp[n]:
-                        break
-                else:
-                    i+=1
-                    continue
-            if i==-1 and temp[0][0]>0:
-                a=0
-                x=0
-                for n in comp:
-                    if temp[0] in comp[n]:
-                        break
-            elif i==-1 and temp[0][0]==0:
-                i+=1
-                continue
-            else:
-                a=temp[i][1]
-                if len(temp[i])==3:
-                   x=temp[i][2]+a-temp[i][0]
-                elif len(temp[i])==5:
-                   x=temp[i][3]+a-temp[i][0]
-                elif len(temp[i])==4:
-                   x=temp[i][3]
-            if i+1==len(temp) and temp[i][1]<len(seq):
-                for n in comp:
-                    if temp[i] in comp[n]:
-                        break
-                b=len(seq)
-                y=len(ref[n][1])
-            elif i+1==len(temp) and temp[i][1]==len(seq):
-                i+=1
-                continue
-            else:
-                b=temp[i+1][0]
-                if len(temp[i+1])==3:
-                    y=temp[i+1][2]
-                else:
-                    y=temp[i+1][3]
-            if a==b and (x==y or (i+1<len(temp) and len(temp[i])!=len(temp[i+1])) or a in [k for k,_,_,_ in seqdel]):
-                i+=1
-                continue
-            for k,l,_,m in seqdel:
-                if a==k:
-                    x+=l
-                if a<k<=b:
-                    b=k
-                    y=m
+                if temp!=seqtype:
+                    print('\n  Sequences to be analyzed must be of same type (DNA or protein) as parental sequences !\n\n')
+                    fail=True
                     break
-            m=0
-            while m<len(temp):
-                if temp[m] not in comp[n]:
-                    temp.remove(temp[m])
+                if args.MinFragLen:
+                    minfrag=args.MinFragLen
                 else:
-                    m+=1
-            alnfail=False
-            temp,seqdel=refine(i,a,b,x,y,seq,ref[n][1],temp,seqdel)
-            for m in temp:
-                if not m in comp[n]:
-                    comp[n].append(m)
-            comp[n]=sorted(comp[n])
+                    if seqtype=='DNA':
+                        minfrag=18
+                    else:
+                        minfrag=6
+                if args.MinOverlap:
+                    minov=args.MinOverlap
+                else:
+                    if seqtype=='DNA':
+                        minov=6
+                    else:
+                        minov=2
+
+    # Match sequence fragments to parental sequences
+
+            comp=defaultdict(list)
+            for m in ref:
+                n=ref[m][1]
+                comp[m].extend(match(seq,n,minfrag))
+
+    # Remove irrelevant matches
+
             temp=set()
             for m in comp:
-                for k in comp[m]:
-                    temp.add(k)
-            temp=sorted(temp)
-            if alnfail:
-                print('\n  Not enough sequence similarity between '+name+' and '+n+'!\n  Aborting refinement...')
-                break
-
-# Write parental maps to file
-
-        g.write('Parental composition of sequence '+name)
-        if len(name)>args.MaxNameSize:
-            print("\n  Sequence name '"+name+"' replaced with ",end='')
-            name='S'+str(num)
-            if len(name)>args.MaxNameSize:
-                print('\n\n  Maximal name size is too short ! Choose a larger value with option -s\n\n')
-                fail=True
-                break
-            g.write('\nSequence name too long, replaced with '+name+' (the number indicates sequence position in the variant file)')
-            print("'"+name+"'")
-        z=0
-        q=0
-        MNS=args.MaxNameSize
-        b=args.SeqChars
-        B=0
-        C=0
-        while z<len(seq):
-            if q+10<=len(seq):
-                g.write('\n\n')
-                q+=10
-                if seqdel:
-                    i=0
-                    for n in seqdel:
-                        if n[0]<q-1 and n[0]+i>q-11:
-                            i+=n[1]
-                            j=n[0]
-                        if i>0 and j!=n[0]:
-                            break
-                    if i>0 and (B!=0 or j>=z):
-                        g.write(' '*(i-B))
-                if MNS+1-z+q-len(str(q))>MNS:
-                    g.write(' '*(MNS+1-z+q-len(str(q)))+str(q))
-                else:
-                    g.write(' '*(MNS+1-z+q))
-            else:
-                g.write('\n')
-            i=0
-            while q+10+i<=z+b and q+10<=len(seq):
-                q+=10
-                if seqdel:
-                    j=0
-                    for n in seqdel:
-                        if n[0]<q-1 and n[0]+j>q-11:
-                            j+=n[1]
-                    if j>0:
-                        i+=j
-                        if q+i<=z+b:
-                            g.write(' '*j)
-                if q+i<=z+b:
-                    g.write('{:>10}'.format(str(q)))
-                else:
-                    q-=10
-            g.write('\n'+name+' '*(MNS+1-len(name)))
-            wrote=True
-            A=0   # cumulated number of sequence deletions in current line
-            y=0   # seqdel index
-            C=B
-            while seqdel and y<len(seqdel) and z>seqdel[y][0]:
-                y+=1
-            for n in range(z,z+b):
-                if n-A>=len(seq):
-                    break
-                if seqdel and y<len(seqdel) and C==seqdel[y][1]:
-                    y+=1
-                    C=0
-                if not seqdel:
-                    g.write(seq[n])
-                if seqdel and y<len(seqdel) and C<seqdel[y][1] and n-A>=seqdel[y][0]:
-                    g.write(GA)
-                    A+=1
-                    C+=1
-                elif seqdel:
-                    g.write(seq[n-A])
-            for m in comp:
-                n=comp[m]
-                x=0
-                while x<len(n) and z>=n[x][1]:
-                    x+=1
-                if x==len(n):
-                    continue
-                g.write('\n'+m+' '*(MNS+1-len(m)))
-                A=0
-                y=0
-                while seqdel and y<len(seqdel) and z>seqdel[y][0]:
-                    y+=1
-                for i in range(z,z+b):
-                    if i-A==n[x][1]:
-                        x+=1
-                        if x==len(n):
-                            break
-                    if seqdel and y<len(seqdel) and B==seqdel[y][1] :
-                        y+=1
-                        B=0
-                    if seqdel and y<len(seqdel) and B<seqdel[y][1] and i-A>=seqdel[y][0]:
-                        g.write(seqdel[y][2][B])
-                        A+=1
-                        B+=1
-                    elif i-A<n[x][0]:
-                        g.write(' ')
-                    elif i-A<n[x][1]:
-                        if len(n[x])==4:
-                            g.write(GA)
-                        elif len(n[x])==5:
-                            g.write(n[x][4][i-A-n[x][0]])
+                for n in comp[m]:
+                    temp.add(n)
+            a=[]
+            while temp:
+                a.append(min(temp))
+                temp.remove(min(temp))
+                x=[]
+                for m in comp:
+                    for n in comp[m]:
+                        if n[:2]==a[-1][:2]:
+                            x.append(m)
+                if len(x)>1:
+                    y=0
+                    z=''
+                    for n in range(len(x)):
+                        b=0
+                        for i in comp[x[n]]:
+                            b+=i[1]-i[0]
+                        if b<y:
+                            z=x[n]
+                        elif b>y and y>0:
+                            z=x[n-1]
+                            y=b
                         else:
-                            g.write(ID)
-            z+=b-A
-        g.write('\n\n\n')
+                            y=b
+                        if z:
+                            for j in comp[z]:
+                                if j[:2]==a[-1][:2]:
+                                    comp[z].remove(j)
+                                    break
+                if len(a)>=2:
+                    x=''
+                    if a[-2][1]>a[-1][1] or (a[-2][1]==a[-1][1] and a[-2][0]<a[-1][0]):
+                        x=a[-1]
+                    elif a[-2][0]==a[-1][0] and a[-1][1]>a[-2][1]:
+                        x=a[-2]
+                    if x:
+                        for m in comp:
+                            for n in comp[m]:
+                                if n[:2]==x[:2]:
+                                    comp[m].remove(n)
+                                    break
+                        if x==a[-2]:
+                            del a[-2]
+                        else:
+                            del a[-1]
+                if len(a)<3:
+                    continue
+                if a[0][1]-a[2][0]>=minov and (a[2][0]>a[0][0] or a[2][1]>a[0][1]):
+                    for m in comp:
+                        if a[1] in comp[m]:
+                            comp[m].remove(a[1])
+                    del a[1]
+                else:
+                    del a[0]
+            temp=set()
+            for m in comp:
+                for n in comp[m]:
+                    temp.add(n)
+            a=[]
+            while temp:
+                a.append(min(temp))
+                temp.remove(min(temp))
+                if len(a)<3:
+                    continue
+                if (a[1][0]>a[0][1] and a[1][1]<a[2][1]) or (a[1][0]>a[0][0] and a[1][1]<a[2][0]):
+                    for m in comp:
+                        if a[0] in comp[m] and a[2] in comp[m]:
+                            for n in comp:
+                                if n==m:
+                                    continue
+                                if a[1] in comp[n]:
+                                    comp[n].remove(a[1])
+                            del a[1]
+                            break
+                del a[0]
+            for m in comp:
+                if len(comp[m])==1:
+                    x=comp[m][0]
+                    for n in comp:
+                        if n==m:
+                            continue
+                        for i in range(len(comp[n])):
+                            if comp[n][i][1]>=x[0] and len(comp[n])>i+1 and x[1]>=comp[n][i+1][0] and comp[n][i+1][0]==comp[n][i][1]+1:
+                                comp[m].remove(x)
+                                break
+            x=list(comp.keys())
+            for m in x:
+                if not comp[m]:
+                    del comp[m]
 
-# Save to stats and combine data
-
-        stats['Name'].append(name)
-        stats['Length'].append(len(seq))
-        stats['Parents'].append(len(comp))
-        cov=0
-        IS=0
-        IC=0
-        SC=0
-        main=''
-        for n in comp:
-            x=0
-            for m in comp[n]:
-                if len(m)==3:
-                    x+=m[1]-m[0]
-                elif len(m)==4:
-                    IS+=1
-                    IC+=m[1]-m[0]
-                elif len(m)==5:
-                    SC+=m[1]-m[0]
-            if x>cov:
-                cov=x
-                main=n
-        stats['Main'].append(main)
-        stats['Coverage'].append(round(cov/len(seq)*100,2))
-        stats['Matches'].append(cov)
-        stats['Ins_sites'].append(IS)
-        stats['Ins'].append(IC)
-        DS=0
-        DC=0
-        for n in seqdel:
-            DS+=1
-            DC+=n[1]
-        stats['Del_sites'].append(DS)
-        stats['Dels'].append(DC)
-        stats['Subs'].append(SC)
-        OU=0
-        y=0
-        temp=set()
-        for m in comp:
-            for n in comp[m]:
-                temp.add(n)
-        temp=sorted(temp)
-        for n in temp:
-            if n[0]>y:
-                OU+=n[0]-y
-                comp[0].append((y,seq[y:n[0]]))
-            y=n[1]
-        OU+=len(seq)-y
-        if len(seq)!=y:
-            comp[0].append((y,seq[y:]))
-        stats['Other'].append(OU)
-        for n in seqdel:
-            comp[-1].append(n)
-        COMB[name]=comp
-
-# map against main parent for variants from multiple parents
-
-        k=len(comp)
-        if 0 in comp:
-            k-=1
-        if -1 in comp:
-            k-=1
-        if k>1:
-            temp=match(seq,ref[main][1],minfrag)
+    # Refine coverage of unmatched regions flanked by same parent or end regions
+    # Also save relevant info for stats
+            temp=set()
+            for m in comp:
+                for n in comp[m]:
+                    temp.add(n)
+            temp=sorted(temp)
             i=-1
-            while i<len(temp):
-                temp=sorted(temp)
-                if i==-1:
+            while i<len(temp) and len(temp)>0:
+                if i>=0 and i+1<len(temp):
+                    for n in comp:
+                        if temp[i] in comp[n] and temp[i+1] in comp[n]:
+                            break
+                    else:
+                        i+=1
+                        continue
+                if i==-1 and temp[0][0]>0:
                     a=0
                     x=0
+                    for n in comp:
+                        if temp[0] in comp[n]:
+                            break
+                elif i==-1 and temp[0][0]==0:
+                    i+=1
+                    continue
                 else:
                     a=temp[i][1]
                     if len(temp[i])==3:
@@ -848,380 +613,619 @@ while True:
                        x=temp[i][3]+a-temp[i][0]
                     elif len(temp[i])==4:
                        x=temp[i][3]
-                if i+1==len(temp):
+                if i+1==len(temp) and temp[i][1]<len(seq):
+                    for n in comp:
+                        if temp[i] in comp[n]:
+                            break
                     b=len(seq)
-                    y=len(ref[main][1])
+                    y=len(ref[n][1])
+                elif i+1==len(temp) and temp[i][1]==len(seq):
+                    i+=1
+                    continue
                 else:
                     b=temp[i+1][0]
                     if len(temp[i+1])==3:
                         y=temp[i+1][2]
                     else:
                         y=temp[i+1][3]
-                if a==b and (x==y or (i+1<len(temp) and len(temp[i])!=len(temp[i+1])) or a in [k for k,_,_,_ in seqdel2]):
+                if a==b and (x==y or (i+1<len(temp) and len(temp[i])!=len(temp[i+1])) or a in [k for k,_,_,_ in seqdel]):
                     i+=1
                     continue
-                for k,l,_,m in seqdel2:
+                for k,l,_,m in seqdel:
                     if a==k:
                         x+=l
                     if a<k<=b:
                         b=k
                         y=m
                         break
-                alnfail=False
-                temp,seqdel2=refine(i,a,b,x,y,seq,ref[main][1],temp,seqdel2)
-                if alnfail:
-                    print('\n  Not enough sequence similarity between '+name+' and '+main+'!\n  Aborting alignment against main parent...')
-                    id=0
-                    break
-            else:
-                for n in seqdel2:
-                    temp.append(n)
-                temp=sorted(temp)
-                COMB2[name]={main:temp}
-                id=0
-                for m in temp:
-                    if len(m)==3:
-                        id+=m[1]-m[0]
-        else:
-            id=cov
-        stats['ID%'].append(round(id/len(seq)*100,2))
-        stats['Identities'].append(id)
-
-# Next variant sequence
-
-    if not line:
-        break
-    if not line.strip():
-        continue
-    if line[0]=='>':
-        if num==args.NumSeq:
-            break
-        name=line[1:].split()[0]
-        seq=''
-        continue
-    seq+=line.strip()
-    if not name:
-        name="Seq"
-g.close()
-if wrote:
-    print('\n  Parental maps saved into file: '+outfile+'-par.txt\n')
-    results.append('par')
-f.close()
-if fail:
-    sys.exit()
-
-# Statistics
-
-stats=pd.DataFrame(stats)
-stats=stats.set_index('Name')
-stats=stats.sort_values(by=['Parents','Main','Ins_sites'])
-if wrote:
-    g=open(outfile+'-stats.txt','w')
-    g.write(str(stats)+'\n\n')
-    g.close()
-    print('  Stats saved into file: '+outfile+'-stats.txt\n')
-    results.append('stats')
-
-# Sequence definitions
-
-g=open(outfile+'-def.txt','w')
-wrote=False
-for n in COMB:
-    A=0
-    temp=[]
-    for m in COMB[n]:
-        temp.extend(COMB[n][m])
-    temp=sorted(temp)
-    for m in temp:
-        for k in m:
-            if not str(k).isdigit():
-                if len(k)>A:
-                    A=len(k)
-    g.write('Variant name: '+n+'\n')
-    g.write('Variant region  Parent/feature  Parent region  Variant sequence'+' '*(max(A,16)-16)+'  Parent sequence\n')
-    a=[k for k in COMB[n] if temp[0] in COMB[n][k]][0]
-    if a==-1:
-        a=[k for k in COMB[n] if temp[1] in COMB[n][k]][0]
-        X=ref[a][0]
-    for m in temp:
-        a=[k for k in COMB[n] if m in COMB[n][k]][0]
-        x=str(m[0]+1)
-        z=''
-        if a==-1:
-            x=str(m[0])
-            y=str(m[0]+1)
-            z='deletion'
-            w=str(m[3]+X)
-            if len(m[2])!=1:
-                w+='-'+str(m[3]+X+len(m[2])-1)
-            w=' '*(15-len(w))+w+' '*(4+max(A,16))+m[2]
-        elif a==0:
-            y=str(m[0]+1+len(m[1])-1)
-            z='unmatched'
-            w=' '*17+m[1]
-        elif a!=-1 and a!=0:
-            X=ref[a][0]
-            y=str(m[1])
-        if len(m)==3:
-            z=a
-            w=str(m[2]+X)
-            if m[1]!=m[0]+1:
-                w+='-'+str(m[2]+X+m[1]-m[0]-1)
-            w=' '*(15-len(w))+w
-        elif len(m)==5:
-            z='substitution'
-            w=str(m[3]+X)
-            if m[1]!=m[0]+1:
-                w+='-'+str(m[3]+X+m[1]-m[0]-1)
-            w=' '*(15-len(w))+w+'  '+m[2]+' '*(max(A,16)+2-len(m[2]))+m[4]
-        elif len(m)==4 and a!=-1:
-            z='insertion'
-            w=str(m[3]+X-1)+'/'+str(m[3]+X)
-            w=' '*(15-len(w))+w+'  '+m[2]
-        if x==y:
-            q=x
-        else:
-            q=x+'-'+y
-            if a==-1:
-                q=x+'/'+y
-        g.write(' '*(14-len(q))+q+' '*(16-len(z))+z+w+'\n')
-        wrote=True
-    g.write('\n')
-g.close()
-if wrote:
-    print('  Sequence definitions saved into file: '+outfile+'-def.txt\n')
-    results.append('def')
-
-# Alignments
-
-VRS=args.VRSides
-g=open(outfile+'-aln.txt','w')
-wrote=False
-for u in range(2):
-    if (u==1 and len(list(stats.loc[stats['Parents']>1].index))==0) or (u==0 and len(list(stats.loc[stats['Parents']==1].index))==0):
-        continue
-    g.write('\nAlignment of variant sequences against their main parental sequence')
-    if len(ref)>1:
-        if u==0:
-            g.write(' - single parent\n')
-        else:
-            g.write(' - multiple parents\n')
-    for n in ref:
-        temp={}
-        if u==0:
-            m=list(stats.loc[(stats['Parents']==1) & (stats['Main']==n)].index)
-        else:
-            m=list(stats.loc[(stats['Parents']>1) & (stats['Main']==n)].index)
-        if not m:
-            continue
-        if u==0:
-            for x in m:
-                y=set()
-                for i in COMB[x]:
-                    for j in COMB[x][i]:
-                        y.add(j)
-                temp[x]=sorted(y)
-        else:
-            for x in m:
-                if x not in COMB2:
-                    continue
-                y=set()
-                for i in COMB2[x]:
-                    for j in COMB2[x][i]:
-                        y.add(j)
-                temp[x]=sorted(y)
-        X=ref[n][0]
-        A=[]    # A: list of regions to display, from variations in each seq / format: ref coords, max size
-        for x in temp:  # x: sequence name
-            y=0         # y: list index
-            if len(temp[x][y])==2:
-                y+=1
-            if len(temp[x][y])==3 and temp[x][y][2]!=0:
-                A.append((0,temp[x][y][2],max(temp[x][y][2],temp[x][y][0])))
-            elif len(temp[x][y])!=3 and temp[x][y][3]!=0:
-                A.append((0,temp[x][y][3],max(temp[x][y][3],temp[x][y][0])))
-            elif len(temp[x][y])==4 and temp[x][y][3]==0:
-                A.append((0,0,len(temp[x][y][2])))
-            while y<len(temp[x])-1:
-                y+=1
-                if len(temp[x][y])==2:  # Unmatched region
-                    if y+1==len(temp[x]):
-                        z=len(ref[n][1])
+                m=0
+                while m<len(temp):
+                    if temp[m] not in comp[n]:
+                        temp.remove(temp[m])
                     else:
-                        z=temp[x][y+1][2]
-                    A.append((temp[x][y-1][2]+temp[x][y-1][1]-temp[x][y-1][0],z,z-temp[x][y-1][2]+temp[x][y-1][1]-temp[x][y-1][0]))
-                elif len(temp[x][y])==5:                                                         # Substitution
-                    A.append((temp[x][y][3],temp[x][y][3]+len(temp[x][y][4]),len(temp[x][y][4])))
-                elif len(temp[x][y])==4 and len(temp[x][y][2])==temp[x][y][1]-temp[x][y][0]:     # Insertion
-                    A.append((temp[x][y][3],temp[x][y][3],len(temp[x][y][2])))
-                elif len(temp[x][y])==4 and len(temp[x][y][2])==temp[x][y][1]:                   # Deletion
-                    A.append((temp[x][y][3],temp[x][y][3]+temp[x][y][1],temp[x][y][1]))
-            z=0
-            if A and A[-1][1]!=len(ref[n][1]) and len(temp[x][y])==5:
-                z=temp[x][y][3]+temp[x][y][1]-temp[x][y][0]
-            elif len(temp[x][y])==3 and temp[x][y][2]+temp[x][y][1]-temp[x][y][0]!=len(ref[n][1]):
-                z=temp[x][y][2]+temp[x][y][1]-temp[x][y][0]
-            if z:
-                A.append((z,len(ref[n][1]),len(ref[n][1])-z))
-        A=sorted(A)
-        C={}                       # list of insertions
-        for i in range(len(A)):
-            x=max(0,A[i][0]-VRS)
-            y=min(len(ref[n][1]),A[i][1]+VRS)
-            z=A[i][2]+A[i][0]-x+y-A[i][1]
-            if A[i][0]==A[i][1]:
-                if A[i][0] in C:
-                    C[A[i][0]]=max(A[i][2],C[A[i][0]])
-                else:
-                    C[A[i][0]]=A[i][2]
-            A[i]=(x,y,z)
-        if A:
-            B=[A[0]]
-        else:
-            B=[]
-        for x in A[1:]:
-            y=B[-1]
-            if x[1]>=y[0] and y[1]>=x[0]:
-                B.remove(y)
-                z=0
-                for i in C:
-                    if y[0]<=i<=x[1]:
-                        z+=C[i]
-                if z:
-                    z+=x[1]-y[0]
-                else:
-                    z=x[2]+y[2]-y[1]+x[0]
-                B.append((y[0],x[1],z))
-            else:
-                B.append(x)
-
-    # Write alignment to file
-
-        i=0
-        j=0
-        if len(B)==1:
-            j=-1
-        while j<len(B)-1:
-            L=0
-            if j!=0:
-                i=j+1
-            if len(B)==1:
-                i=0
-            while j<len(B)-1:
-                x=max(len(str(B[j+1][0]+X)),B[j+1][2])+1
-                if L+x>args.SeqChars and len(B)>1:
+                        m+=1
+                alnfail=False
+                temp,seqdel=refine(i,a,b,x,y,seq,ref[n][1],temp,seqdel)
+                for m in temp:
+                    if not m in comp[n]:
+                        comp[n].append(m)
+                comp[n]=sorted(comp[n])
+                temp=set()
+                for m in comp:
+                    for k in comp[m]:
+                        temp.add(k)
+                temp=sorted(temp)
+                if alnfail:
+                    print('\n  Not enough sequence similarity between '+name+' and '+n+'!\n  Aborting refinement...')
                     break
-                L+=x
-                j+=1
-            if i==j+1 or x>args.SeqChars:
-                print('\n  Failed alignment for parent: '+n+'! Try with different values for -c and -e options...\n')
-                break
-            g.write('\n\n'+' '*MNS)
-            wrote=True
-            for x in range(i,j+1):
-                g.write(' '+str(B[x][0]+X)+' '*(max(0,B[x][2]-len(str(B[x][0]+X)))))
-            g.write('\n'+n+' '*(1+MNS-len(n)))
-            for x in range(i,j+1):
-                w=''
-                c=B[x][0]
-                for p in sorted(C):
-                    if B[x][0]<=p<=B[x][1]:
-                        w+=ref[n][1][c:p]+GA*C[p]
-                        c=p
-                w+=ref[n][1][c:B[x][1]]
-                g.write(w+' '*(1+max(0,len(str(B[x][0]+X))-len(w))))
-            for m in temp:
-                g.write('\n'+m+' '*(1+MNS-len(m)))
-                for x in range(i,j+1):
-                    z=0
-                    w=''
-                    k=B[x][0]
-                    r=1
-                    for y in temp[m]:
-                        if len(y)==3:
-                            c=y[2]
-                            z=y[2]+y[1]-y[0]
-                        elif len(y)>3:
-                            c=y[3]
-                        else:
-                            c=z
-                        if not k<=c<=B[x][1]:
-                            continue
-                        for p in sorted(C):
-                            if k<p<c or (p==c and len(y)!=4) or (p==c and len(y)==4 and len(y[2])==y[1] and y[0]!=0) or (p==0 and p<c and y[0]==0):
-                                w+=ID*(p-k)+GA*C[p]*r
-                                r=1
-                                k=p
-                            if p>c:
+
+    # Write parental maps to file
+
+            g.write('Parental composition of sequence '+name)
+            if len(name)>args.MaxNameSize:
+                print("\n  Sequence name '"+name+"' replaced with ",end='')
+                name='S'+str(num)
+                if len(name)>args.MaxNameSize:
+                    print('\n\n  Maximal name size is too short ! Choose a larger value with option -s\n\n')
+                    fail=True
+                    break
+                g.write('\nSequence name too long, replaced with '+name+' (the number indicates sequence position in the variant file)')
+                print("'"+name+"'")
+            z=0
+            q=0
+            MNS=args.MaxNameSize
+            b=args.SeqChars
+            B=0
+            C=0
+            while z<len(seq):
+                if q+10<=len(seq):
+                    g.write('\n\n')
+                    q+=10
+                    if seqdel:
+                        i=0
+                        for n in seqdel:
+                            if n[0]<q-1 and n[0]+i>q-11:
+                                i+=n[1]
+                                j=n[0]
+                            if i>0 and j!=n[0]:
                                 break
-                        if len(y)==2:
-                            w+=ID*(c-k)+y[1]
-                            k=len(y[1])+c
-                        elif len(y)==3:
-                            w+=GA*(y[2]-k)
-                            k=y[2]
-                        elif len(y)==5:
-                            w+=ID*(c-k)
-                            z=0
-                            for s in sorted(C):
-                                if c<s<c+len(y[2]):
-                                    w+=y[2][z:s-c]+GA*C[s]
-                                    z=s-c
-                            if z:
-                                w+=y[2][z:]
+                        if i>0 and (B!=0 or j>=z):
+                            g.write(' '*(i-B))
+                    if MNS+1-z+q-len(str(q))>MNS:
+                        g.write(' '*(MNS+1-z+q-len(str(q)))+str(q))
+                    else:
+                        g.write(' '*(MNS+1-z+q))
+                else:
+                    g.write('\n')
+                i=0
+                while q+10+i<=z+b and q+10<=len(seq):
+                    q+=10
+                    if seqdel:
+                        j=0
+                        for n in seqdel:
+                            if n[0]<q-1 and n[0]+j>q-11:
+                                j+=n[1]
+                        if j>0:
+                            i+=j
+                            if q+i<=z+b:
+                                g.write(' '*j)
+                    if q+i<=z+b:
+                        g.write('{:>10}'.format(str(q)))
+                    else:
+                        q-=10
+                g.write('\n'+name+' '*(MNS+1-len(name)))
+                wrote=True
+                A=0   # cumulated number of sequence deletions in current line
+                y=0   # seqdel index
+                C=B
+                while seqdel and y<len(seqdel) and z>seqdel[y][0]:
+                    y+=1
+                for n in range(z,z+b):
+                    if n-A>=len(seq):
+                        break
+                    if seqdel and y<len(seqdel) and C==seqdel[y][1]:
+                        y+=1
+                        C=0
+                    if not seqdel:
+                        g.write(seq[n])
+                    if seqdel and y<len(seqdel) and C<seqdel[y][1] and n-A>=seqdel[y][0]:
+                        g.write(GA)
+                        A+=1
+                        C+=1
+                    elif seqdel:
+                        g.write(seq[n-A])
+                for m in comp:
+                    n=comp[m]
+                    x=0
+                    while x<len(n) and z>=n[x][1]:
+                        x+=1
+                    if x==len(n):
+                        continue
+                    g.write('\n'+m+' '*(MNS+1-len(m)))
+                    A=0
+                    y=0
+                    while seqdel and y<len(seqdel) and z>seqdel[y][0]:
+                        y+=1
+                    for i in range(z,z+b):
+                        if i-A==n[x][1]:
+                            x+=1
+                            if x==len(n):
+                                break
+                        if seqdel and y<len(seqdel) and B==seqdel[y][1] :
+                            y+=1
+                            B=0
+                        if seqdel and y<len(seqdel) and B<seqdel[y][1] and i-A>=seqdel[y][0]:
+                            g.write(seqdel[y][2][B])
+                            A+=1
+                            B+=1
+                        elif i-A<n[x][0]:
+                            g.write(' ')
+                        elif i-A<n[x][1]:
+                            if len(n[x])==4:
+                                g.write(GA)
+                            elif len(n[x])==5:
+                                g.write(n[x][4][i-A-n[x][0]])
                             else:
-                                w+=y[2]
-                            k=len(y[2])+c
-                        elif len(y)==4 and len(y[2])==y[1]-y[0]:
-                            w+=ID*(c-k)+y[2]
-                            k=c
-                            r=0
-                            if c in C:
-                                 w+=GA*(C[c]-len(y[2]))
-                        elif len(y)==4 and len(y[2])==y[1]:
-                            w+=ID*(c-k)+GA*y[1]
-                            k=c+y[1]
-                    for p in sorted(C):
-                        if k<p<B[x][1]:
-                            w+=ID*(p-k)+GA*C[p]
-                            k=p
-                    if x<len(B)-1 or B[x][1]!=len(ref[n][1]):
-                        w+=ID*(B[x][1]-k)
-                    elif x==len(B)-1 and B[x][1]==len(ref[n][1]):
-                        if len(y)==3:
-                            z=y[2]+y[1]-y[0]-k
+                                g.write(ID)
+                z+=b-A
+            g.write('\n\n\n')
+
+    # Save to stats and combine data
+
+            stats['Name'].append(name)
+            stats['Length'].append(len(seq))
+            stats['Parents'].append(len(comp))
+            cov=0
+            IS=0
+            IC=0
+            SC=0
+            main=''
+            for n in comp:
+                x=0
+                for m in comp[n]:
+                    if len(m)==3:
+                        x+=m[1]-m[0]
+                    elif len(m)==4:
+                        IS+=1
+                        IC+=m[1]-m[0]
+                    elif len(m)==5:
+                        SC+=m[1]-m[0]
+                if x>cov:
+                    cov=x
+                    main=n
+            stats['Main'].append(main)
+            stats['Coverage'].append(round(cov/len(seq)*100,2))
+            stats['Matches'].append(cov)
+            stats['Ins_sites'].append(IS)
+            stats['Ins'].append(IC)
+            DS=0
+            DC=0
+            for n in seqdel:
+                DS+=1
+                DC+=n[1]
+            stats['Del_sites'].append(DS)
+            stats['Dels'].append(DC)
+            stats['Subs'].append(SC)
+            OU=0
+            y=0
+            temp=set()
+            for m in comp:
+                for n in comp[m]:
+                    temp.add(n)
+            temp=sorted(temp)
+            for n in temp:
+                if n[0]>y:
+                    OU+=n[0]-y
+                    comp[0].append((y,seq[y:n[0]]))
+                y=n[1]
+            OU+=len(seq)-y
+            if len(seq)!=y:
+                comp[0].append((y,seq[y:]))
+            stats['Other'].append(OU)
+            for n in seqdel:
+                comp[-1].append(n)
+            COMB[name]=comp
+
+    # map against main parent for variants from multiple parents
+
+            k=len(comp)
+            if 0 in comp:
+                k-=1
+            if -1 in comp:
+                k-=1
+            if k>1:
+                temp=match(seq,ref[main][1],minfrag)
+                i=-1
+                while i<len(temp):
+                    temp=sorted(temp)
+                    if i==-1:
+                        a=0
+                        x=0
+                    else:
+                        a=temp[i][1]
+                        if len(temp[i])==3:
+                           x=temp[i][2]+a-temp[i][0]
+                        elif len(temp[i])==5:
+                           x=temp[i][3]+a-temp[i][0]
+                        elif len(temp[i])==4:
+                           x=temp[i][3]
+                    if i+1==len(temp):
+                        b=len(seq)
+                        y=len(ref[main][1])
+                    else:
+                        b=temp[i+1][0]
+                        if len(temp[i+1])==3:
+                            y=temp[i+1][2]
                         else:
-                            z=0
-                        q=B[x][1]-k-z
-                        w+=ID*z+GA*q
-                    if x==len(B)-1 and B[x][1] in C and y[-1]!=B[x][1]:
-                        w+=GA*C[B[x][1]]
-                    g.write(w+' '*(1+max(0,len(str(B[x][0]+X))-len(w))))
+                            y=temp[i+1][3]
+                    if a==b and (x==y or (i+1<len(temp) and len(temp[i])!=len(temp[i+1])) or a in [k for k,_,_,_ in seqdel2]):
+                        i+=1
+                        continue
+                    for k,l,_,m in seqdel2:
+                        if a==k:
+                            x+=l
+                        if a<k<=b:
+                            b=k
+                            y=m
+                            break
+                    alnfail=False
+                    temp,seqdel2=refine(i,a,b,x,y,seq,ref[main][1],temp,seqdel2)
+                    if alnfail:
+                        print('\n  Not enough sequence similarity between '+name+' and '+main+'!\n  Aborting alignment against main parent...')
+                        id=0
+                        break
+                else:
+                    for n in seqdel2:
+                        temp.append(n)
+                    temp=sorted(temp)
+                    COMB2[name]={main:temp}
+                    id=0
+                    for m in temp:
+                        if len(m)==3:
+                            id+=m[1]-m[0]
+            else:
+                id=cov
+            stats['ID%'].append(round(id/len(seq)*100,2))
+            stats['Identities'].append(id)
+
+    # Next variant sequence
+
+        if not line:
+            break
+        if not line.strip():
+            continue
+        if line[0]=='>':
+            if num==args.NumSeq:
+                break
+            name=line[1:].split()[0]
+            seq=''
+            continue
+        seq+=line.strip()
+        if not name:
+            name="Seq"
+    g.close()
+    if wrote:
+        print('\n  Parental maps saved into file: '+outfile+'-par.txt\n')
+        results.append('par')
+    f.close()
+    if fail:
+        sys.exit()
+
+    # Statistics
+
+    stats=pd.DataFrame(stats)
+    stats=stats.set_index('Name')
+    stats=stats.sort_values(by=['Parents','Main','Ins_sites'])
+    if wrote:
+        g=open(outfile+'-stats.txt','w')
+        g.write(str(stats)+'\n\n')
+        g.close()
+        print('  Stats saved into file: '+outfile+'-stats.txt\n')
+        results.append('stats')
+
+    # Sequence definitions
+
+    g=open(outfile+'-def.txt','w')
+    wrote=False
+    for n in COMB:
+        A=0
+        temp=[]
+        for m in COMB[n]:
+            temp.extend(COMB[n][m])
+        temp=sorted(temp)
+        for m in temp:
+            for k in m:
+                if not str(k).isdigit():
+                    if len(k)>A:
+                        A=len(k)
+        g.write('Variant name: '+n+'\n')
+        g.write('Variant region  Parent/feature  Parent region  Variant sequence'+' '*(max(A,16)-16)+'  Parent sequence\n')
+        a=[k for k in COMB[n] if temp[0] in COMB[n][k]][0]
+        if a==-1:
+            a=[k for k in COMB[n] if temp[1] in COMB[n][k]][0]
+            X=ref[a][0]
+        for m in temp:
+            a=[k for k in COMB[n] if m in COMB[n][k]][0]
+            x=str(m[0]+1)
+            z=''
+            if a==-1:
+                x=str(m[0])
+                y=str(m[0]+1)
+                z='deletion'
+                w=str(m[3]+X)
+                if len(m[2])!=1:
+                    w+='-'+str(m[3]+X+len(m[2])-1)
+                w=' '*(15-len(w))+w+' '*(4+max(A,16))+m[2]
+            elif a==0:
+                y=str(m[0]+1+len(m[1])-1)
+                z='unmatched'
+                w=' '*17+m[1]
+            elif a!=-1 and a!=0:
+                X=ref[a][0]
+                y=str(m[1])
+            if len(m)==3:
+                z=a
+                w=str(m[2]+X)
+                if m[1]!=m[0]+1:
+                    w+='-'+str(m[2]+X+m[1]-m[0]-1)
+                w=' '*(15-len(w))+w
+            elif len(m)==5:
+                z='substitution'
+                w=str(m[3]+X)
+                if m[1]!=m[0]+1:
+                    w+='-'+str(m[3]+X+m[1]-m[0]-1)
+                w=' '*(15-len(w))+w+'  '+m[2]+' '*(max(A,16)+2-len(m[2]))+m[4]
+            elif len(m)==4 and a!=-1:
+                z='insertion'
+                w=str(m[3]+X-1)+'/'+str(m[3]+X)
+                w=' '*(15-len(w))+w+'  '+m[2]
+            if x==y:
+                q=x
+            else:
+                q=x+'-'+y
+                if a==-1:
+                    q=x+'/'+y
+            g.write(' '*(14-len(q))+q+' '*(16-len(z))+z+w+'\n')
+            wrote=True
         g.write('\n')
-    g.write('\n\n')
-g.write('\n')
-g.close()
-if wrote:
-    print('  Alignments saved into file: '+outfile+'-aln.txt\n')
-    results.append('aln')
+    g.close()
+    if wrote:
+        print('  Sequence definitions saved into file: '+outfile+'-def.txt\n')
+        results.append('def')
 
-# Create -par.html file
+    # Alignments
 
-if not args.Colors:
-    colors=['green','yellow','red','blue','magenta','cyan','orange','purple','darkblue','olive','coral','lightgreen']
-    cd={}
-    x=0
-    for n in sorted(ref):
-        cd[n]=colors[x]
-        x+=1
-        if x==len(colors):
-            x=0
-colorize(outfile+'-par.txt',cd,ID)
+    VRS=args.VRSides
+    g=open(outfile+'-aln.txt','w')
+    wrote=False
+    for u in range(2):
+        if (u==1 and len(list(stats.loc[stats['Parents']>1].index))==0) or (u==0 and len(list(stats.loc[stats['Parents']==1].index))==0):
+            continue
+        g.write('\nAlignment of variant sequences against their main parental sequence')
+        if len(ref)>1:
+            if u==0:
+                g.write(' - single parent\n')
+            else:
+                g.write(' - multiple parents\n')
+        for n in ref:
+            temp={}
+            if u==0:
+                m=list(stats.loc[(stats['Parents']==1) & (stats['Main']==n)].index)
+            else:
+                m=list(stats.loc[(stats['Parents']>1) & (stats['Main']==n)].index)
+            if not m:
+                continue
+            if u==0:
+                for x in m:
+                    y=set()
+                    for i in COMB[x]:
+                        for j in COMB[x][i]:
+                            y.add(j)
+                    temp[x]=sorted(y)
+            else:
+                for x in m:
+                    if x not in COMB2:
+                        continue
+                    y=set()
+                    for i in COMB2[x]:
+                        for j in COMB2[x][i]:
+                            y.add(j)
+                    temp[x]=sorted(y)
+            X=ref[n][0]
+            A=[]    # A: list of regions to display, from variations in each seq / format: ref coords, max size
+            for x in temp:  # x: sequence name
+                y=0         # y: list index
+                if len(temp[x][y])==2:
+                    y+=1
+                if len(temp[x][y])==3 and temp[x][y][2]!=0:
+                    A.append((0,temp[x][y][2],max(temp[x][y][2],temp[x][y][0])))
+                elif len(temp[x][y])!=3 and temp[x][y][3]!=0:
+                    A.append((0,temp[x][y][3],max(temp[x][y][3],temp[x][y][0])))
+                elif len(temp[x][y])==4 and temp[x][y][3]==0:
+                    A.append((0,0,len(temp[x][y][2])))
+                while y<len(temp[x])-1:
+                    y+=1
+                    if len(temp[x][y])==2:  # Unmatched region
+                        if y+1==len(temp[x]):
+                            z=len(ref[n][1])
+                        else:
+                            z=temp[x][y+1][2]
+                        A.append((temp[x][y-1][2]+temp[x][y-1][1]-temp[x][y-1][0],z,z-temp[x][y-1][2]+temp[x][y-1][1]-temp[x][y-1][0]))
+                    elif len(temp[x][y])==5:                                                         # Substitution
+                        A.append((temp[x][y][3],temp[x][y][3]+len(temp[x][y][4]),len(temp[x][y][4])))
+                    elif len(temp[x][y])==4 and len(temp[x][y][2])==temp[x][y][1]-temp[x][y][0]:     # Insertion
+                        A.append((temp[x][y][3],temp[x][y][3],len(temp[x][y][2])))
+                    elif len(temp[x][y])==4 and len(temp[x][y][2])==temp[x][y][1]:                   # Deletion
+                        A.append((temp[x][y][3],temp[x][y][3]+temp[x][y][1],temp[x][y][1]))
+                z=0
+                if A and A[-1][1]!=len(ref[n][1]) and len(temp[x][y])==5:
+                    z=temp[x][y][3]+temp[x][y][1]-temp[x][y][0]
+                elif len(temp[x][y])==3 and temp[x][y][2]+temp[x][y][1]-temp[x][y][0]!=len(ref[n][1]):
+                    z=temp[x][y][2]+temp[x][y][1]-temp[x][y][0]
+                if z:
+                    A.append((z,len(ref[n][1]),len(ref[n][1])-z))
+            A=sorted(A)
+            C={}                       # list of insertions
+            for i in range(len(A)):
+                x=max(0,A[i][0]-VRS)
+                y=min(len(ref[n][1]),A[i][1]+VRS)
+                z=A[i][2]+A[i][0]-x+y-A[i][1]
+                if A[i][0]==A[i][1]:
+                    if A[i][0] in C:
+                        C[A[i][0]]=max(A[i][2],C[A[i][0]])
+                    else:
+                        C[A[i][0]]=A[i][2]
+                A[i]=(x,y,z)
+            if A:
+                B=[A[0]]
+            else:
+                B=[]
+            for x in A[1:]:
+                y=B[-1]
+                if x[1]>=y[0] and y[1]>=x[0]:
+                    B.remove(y)
+                    z=0
+                    for i in C:
+                        if y[0]<=i<=x[1]:
+                            z+=C[i]
+                    if z:
+                        z+=x[1]-y[0]
+                    else:
+                        z=x[2]+y[2]-y[1]+x[0]
+                    B.append((y[0],x[1],z))
+                else:
+                    B.append(x)
 
-# Display files in browser
+        # Write alignment to file
 
-if not args.DisplayResults:
-    sys.exit()
-for n in results:
-    URL=outfile+'-'+n+'.txt'
-    webbrowser.open_new_tab(URL)
+            i=0
+            j=0
+            if len(B)==1:
+                j=-1
+            while j<len(B)-1:
+                L=0
+                if j!=0:
+                    i=j+1
+                if len(B)==1:
+                    i=0
+                while j<len(B)-1:
+                    x=max(len(str(B[j+1][0]+X)),B[j+1][2])+1
+                    if L+x>args.SeqChars and len(B)>1:
+                        break
+                    L+=x
+                    j+=1
+                if i==j+1 or x>args.SeqChars:
+                    print('\n  Failed alignment for parent: '+n+'! Try with different values for -c and -e options...\n')
+                    break
+                g.write('\n\n'+' '*MNS)
+                wrote=True
+                for x in range(i,j+1):
+                    g.write(' '+str(B[x][0]+X)+' '*(max(0,B[x][2]-len(str(B[x][0]+X)))))
+                g.write('\n'+n+' '*(1+MNS-len(n)))
+                for x in range(i,j+1):
+                    w=''
+                    c=B[x][0]
+                    for p in sorted(C):
+                        if B[x][0]<=p<=B[x][1]:
+                            w+=ref[n][1][c:p]+GA*C[p]
+                            c=p
+                    w+=ref[n][1][c:B[x][1]]
+                    g.write(w+' '*(1+max(0,len(str(B[x][0]+X))-len(w))))
+                for m in temp:
+                    g.write('\n'+m+' '*(1+MNS-len(m)))
+                    for x in range(i,j+1):
+                        z=0
+                        w=''
+                        k=B[x][0]
+                        r=1
+                        for y in temp[m]:
+                            if len(y)==3:
+                                c=y[2]
+                                z=y[2]+y[1]-y[0]
+                            elif len(y)>3:
+                                c=y[3]
+                            else:
+                                c=z
+                            if not k<=c<=B[x][1]:
+                                continue
+                            for p in sorted(C):
+                                if k<p<c or (p==c and len(y)!=4) or (p==c and len(y)==4 and len(y[2])==y[1] and y[0]!=0) or (p==0 and p<c and y[0]==0):
+                                    w+=ID*(p-k)+GA*C[p]*r
+                                    r=1
+                                    k=p
+                                if p>c:
+                                    break
+                            if len(y)==2:
+                                w+=ID*(c-k)+y[1]
+                                k=len(y[1])+c
+                            elif len(y)==3:
+                                w+=GA*(y[2]-k)
+                                k=y[2]
+                            elif len(y)==5:
+                                w+=ID*(c-k)
+                                z=0
+                                for s in sorted(C):
+                                    if c<s<c+len(y[2]):
+                                        w+=y[2][z:s-c]+GA*C[s]
+                                        z=s-c
+                                if z:
+                                    w+=y[2][z:]
+                                else:
+                                    w+=y[2]
+                                k=len(y[2])+c
+                            elif len(y)==4 and len(y[2])==y[1]-y[0]:
+                                w+=ID*(c-k)+y[2]
+                                k=c
+                                r=0
+                                if c in C:
+                                     w+=GA*(C[c]-len(y[2]))
+                            elif len(y)==4 and len(y[2])==y[1]:
+                                w+=ID*(c-k)+GA*y[1]
+                                k=c+y[1]
+                        for p in sorted(C):
+                            if k<p<B[x][1]:
+                                w+=ID*(p-k)+GA*C[p]
+                                k=p
+                        if x<len(B)-1 or B[x][1]!=len(ref[n][1]):
+                            w+=ID*(B[x][1]-k)
+                        elif x==len(B)-1 and B[x][1]==len(ref[n][1]):
+                            if len(y)==3:
+                                z=y[2]+y[1]-y[0]-k
+                            else:
+                                z=0
+                            q=B[x][1]-k-z
+                            w+=ID*z+GA*q
+                        if x==len(B)-1 and B[x][1] in C and y[-1]!=B[x][1]:
+                            w+=GA*C[B[x][1]]
+                        g.write(w+' '*(1+max(0,len(str(B[x][0]+X))-len(w))))
+            g.write('\n')
+        g.write('\n\n')
+    g.write('\n')
+    g.close()
+    if wrote:
+        print('  Alignments saved into file: '+outfile+'-aln.txt\n')
+        results.append('aln')
+
+    # Create -par.html file
+
+    if not args.Colors:
+        colors=['green','yellow','red','blue','magenta','cyan','orange','purple','darkblue','olive','coral','lightgreen']
+        cd={}
+        x=0
+        for n in sorted(ref):
+            cd[n]=colors[x]
+            x+=1
+            if x==len(colors):
+                x=0
+    colorize(outfile+'-par.txt',cd,ID,args.DisplayResults)
+
+    # Display files in browser
+
+    if not args.DisplayResults:
+        sys.exit()
+    for n in results:
+        URL=outfile+'-'+n+'.txt'
+        webbrowser.open_new_tab(URL)
+
+if __name__ == '__main__':
+    main()
