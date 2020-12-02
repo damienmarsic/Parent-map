@@ -15,5 +15,4 @@ def test_refine():
     x,y=pm.refine(0,11,17,11,17,'VYSEPRPIGTRFLTRNL','VYSEPRPIGTRYLTRNL',[(0,11,0)],[])
     assert (x,y)==([(0, 11, 0), (11, 12, 'F', 11, 'Y'), (12, 17, 12)],[])
 
-#test_refine()
 pytest.main()
