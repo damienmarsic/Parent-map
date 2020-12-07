@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-__version__='1.1.1'
-last_update='2020-12-02'
+__version__='1.1.2'
+last_update='2020-12-07'
 author='Damien Marsic, damien.marsic@aliyun.com'
 
 import argparse
@@ -292,6 +292,7 @@ def colorize(filename,cd,id,display):
     return
 
 def main():
+    global seqtype,minfrag,top,score,alnfail
     if not cli:
         args=parse_GUI()
     else:
@@ -301,7 +302,6 @@ def main():
     score=0
     results=[]
     cd={}
-    seqtype=''
 
     # Check arguments
 
