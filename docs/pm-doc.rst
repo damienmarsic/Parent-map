@@ -1,3 +1,4 @@
+
 Overview
 ========
 
@@ -50,6 +51,14 @@ To install the parent-map bioconda package, at the conda prompt type::
 
 Windows users who prefer not to use a conda environment can install the Windows executable version of parent-map from here:
 https://sourceforge.net/projects/parent-map/
+
+Parent-map can also be installed using pip::
+
+   pip install parent-map
+
+However, dependencies might need to be installed individually. If you get an error message about missing modules when trying to run parent-map after installing it with pip, use pip install to install missing modules. Example::
+
+   pip install gooey
 
 |
 Usage
