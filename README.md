@@ -2,9 +2,16 @@
 
 Analyze parental contributions to evolved or engineered protein or DNA sequences
 
+[Read the JOSS article](https://joss.theoj.org/papers/10.21105/joss.02864)
+
 Run parent-map without arguments to start in GUI mode.
 Run parent-map with arguments to start in console mode.
 Run parent-map.py -h for help and list of arguments.
+
+Install from Bioconda:
+```
+conda install -c bioconda parent-map
+```
 
 Install from PyPI:
 ````
@@ -12,10 +19,7 @@ pip install parent-map
 ````
 Note that you may need to individually install some dependencies. If you get an error message about missing modules when trying to run parent-map after installing it with pip, install them using pip install. Example: pip install gooey
 
-Install from Bioconda:
-```
-conda install -c bioconda parent-map
-```
+
 Run:
 ```
 python -m parent-map
