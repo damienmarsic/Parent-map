@@ -39,6 +39,15 @@ Windows executable:
  https://sourceforge.net/projects/parent-map/
 
 |
+How to cite
+===========
+
+Marsic, D., (2021). Parent-map: analysis of parental contributions to evolved or engineered protein or DNA sequences. Journal of Open Source Software, 6(57), 2864, https://doi.org/10.21105/joss.02864
+
+BibTeX entry:
+@article{Marsic2021, doi = {10.21105/joss.02864}, url = {https://doi.org/10.21105/joss.02864}, year = {2021}, publisher = {The Open Journal}, volume = {6}, number = {57}, pages = {2864}, author = {Damien Marsic}, title = {Parent-map: analysis of parental contributions to evolved or engineered protein or DNA sequences}, journal = {Journal of Open Source Software} }
+
+|
 Installation
 ============
 
